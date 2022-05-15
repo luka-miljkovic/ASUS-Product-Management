@@ -1,0 +1,15 @@
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\Model.deps.json
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\Model.runtimeconfig.json
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\Model.runtimeconfig.dev.json
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\Model.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\ref\Model.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\bin\Debug\net5.0\Model.pdb
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.csproj.AssemblyReference.cache
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.AssemblyInfoInputs.cache
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.AssemblyInfo.cs
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.csproj.CoreCompileInputs.cache
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.pdb
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\Model\obj\Debug\net5.0\Model.genruntimeconfig.cache

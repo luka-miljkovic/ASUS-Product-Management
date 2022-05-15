@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsusAPI", "AsusAPI\AsusAPI.csproj", "{C33375B4-04F8-4D17-B0E6-FE5C5861531B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{8166DCF1-B751-4A30-B144-C0058891E8F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C33375B4-04F8-4D17-B0E6-FE5C5861531B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C33375B4-04F8-4D17-B0E6-FE5C5861531B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C33375B4-04F8-4D17-B0E6-FE5C5861531B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8166DCF1-B751-4A30-B144-C0058891E8F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8166DCF1-B751-4A30-B144-C0058891E8F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8166DCF1-B751-4A30-B144-C0058891E8F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8166DCF1-B751-4A30-B144-C0058891E8F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
