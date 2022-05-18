@@ -26,11 +26,8 @@ namespace Model
             modelBuilder.Entity<Trziste>().HasKey(e => e.SifraTrzista);
             modelBuilder.Entity<OdgovornoLice>().HasKey(e => e.SifraRadnika );
             modelBuilder.Entity<Kupac>().HasKey(e => e.PIB);
-            //modelBuilder.Entity<Proizvod>().HasKey(p => p.SifraProizvoda);
-            //modelBuilder.Entity<Drzava>().HasKey(d => d.IDDrzave);
 
             modelBuilder.Entity<Proizvod>().OwnsMany(s => s.Karakteristike).WithOwner(t => t.Proizvod);
-
             modelBuilder.Entity<Drzava>().OwnsMany(e => e.Gradovi).WithOwner(e => e.Drzava);
 
             modelBuilder.Entity<OdgovornoLice>().HasOne(e => e.Trziste).WithMany().
@@ -38,10 +35,8 @@ namespace Model
             //modelBuilder.Entity<Kupac>().HasOne(k => k.Grad).WithMany(/*g => g.Kupci*/).HasForeignKey(e => e.DrzavaId);
             //modelBuilder.Entity<Kupac>().HasOne(k => k.Grad).WithMany(/*g => g.Kupci*/).HasForeignKey(e => e.GradId);
 
-            //modelBuilder.Entity<Grad>().HasMany(g => g.Kupci).WithOne(k => k.Grad);
-
-            //modelBuilder.Entity<Grad>().HasKey(g => new { g.PostanskiBroj, g.DrzavaId });
-            //modelBuilder.Entity<Karakteristika>().HasKey(k => new { k.IDKarkteristike, k.ProizvodId });
+            //modelBuilder.Entity<Grad>().HasIndex(e => e.PostanskiBroj).IsUnique(true);
+            //modelBuilder.Entity<Grad>().HasIndex(g => new { g.PostanskiBroj, g.DrzavaId }).IsUnique(true);
 
             //modelBuilder.Entity<Kupac>(entity =>
             //{
