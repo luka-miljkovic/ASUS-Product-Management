@@ -20,7 +20,7 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Domain.Drzava", b =>
                 {
-                    b.Property<int>("DrzavaId")
+                    b.Property<int>("IDDrzave")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -28,9 +28,27 @@ namespace Model.Migrations
                     b.Property<string>("NazivDrzave")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("DrzavaId");
+                    b.HasKey("IDDrzave");
 
                     b.ToTable("Drzava");
+                });
+
+            modelBuilder.Entity("Model.Domain.Grad", b =>
+                {
+                    b.Property<int>("PostanskiBroj")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IDDrzave")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NazivGrada")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PostanskiBroj", "IDDrzave");
+
+                    b.HasIndex("IDDrzave");
+
+                    b.ToTable("Grad");
                 });
 
             modelBuilder.Entity("Model.Domain.Kupac", b =>
@@ -40,19 +58,21 @@ namespace Model.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DrzavaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GradId")
+                    b.Property<int>("IDDrzave")
                         .HasColumnType("int");
 
                     b.Property<string>("NazivKupca")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UlicaIBroj")
+                    b.Property<int>("PostanskiBroj")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UlicaBroj")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PIB");
+
+                    b.HasIndex("PostanskiBroj", "IDDrzave");
 
                     b.ToTable("Kupac");
                 });
@@ -82,7 +102,7 @@ namespace Model.Migrations
 
             modelBuilder.Entity("Model.Domain.Proizvod", b =>
                 {
-                    b.Property<int>("ProizvodId")
+                    b.Property<int>("SifraProizvoda")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -90,7 +110,7 @@ namespace Model.Migrations
                     b.Property<string>("NazivModela")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ProizvodId");
+                    b.HasKey("SifraProizvoda");
 
                     b.ToTable("Proizvod");
                 });
@@ -110,33 +130,27 @@ namespace Model.Migrations
                     b.ToTable("Trziste");
                 });
 
-            modelBuilder.Entity("Model.Domain.Drzava", b =>
+            modelBuilder.Entity("Model.Domain.Grad", b =>
                 {
-                    b.OwnsMany("Model.Domain.Grad", "Gradovi", b1 =>
-                        {
-                            b1.Property<int>("DrzavaId")
-                                .HasColumnType("int");
+                    b.HasOne("Model.Domain.Drzava", "Drzava")
+                        .WithMany()
+                        .HasForeignKey("IDDrzave")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            b1.Property<int>("GradId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasColumnName("PostanskiBroj")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Navigation("Drzava");
+                });
 
-                            b1.Property<string>("NazivGrada")
-                                .HasColumnType("nvarchar(max)");
+            modelBuilder.Entity("Model.Domain.Kupac", b =>
+                {
+                    b.HasOne("Model.Domain.Grad", "Grad")
+                        .WithMany("Kupci")
+                        .HasForeignKey("PostanskiBroj", "IDDrzave")
+                        .HasConstraintName("FK_Kupac_Grad")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                            b1.HasKey("DrzavaId", "GradId");
-
-                            b1.ToTable("Grad");
-
-                            b1.WithOwner("Drzava")
-                                .HasForeignKey("DrzavaId");
-
-                            b1.Navigation("Drzava");
-                        });
-
-                    b.Navigation("Gradovi");
+                    b.Navigation("Grad");
                 });
 
             modelBuilder.Entity("Model.Domain.OdgovornoLice", b =>
@@ -154,13 +168,13 @@ namespace Model.Migrations
                 {
                     b.OwnsMany("Model.Domain.Karakteristika", "Karakteristike", b1 =>
                         {
-                            b1.Property<int>("ProizvodId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("KarakteristikaId")
+                            b1.Property<int>("IDKarakteristike")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("SifraProizvoda")
+                                .HasColumnType("int");
 
                             b1.Property<string>("NazivKarakteristike")
                                 .HasColumnType("nvarchar(max)");
@@ -168,17 +182,24 @@ namespace Model.Migrations
                             b1.Property<double>("Vrednost")
                                 .HasColumnType("float");
 
-                            b1.HasKey("ProizvodId", "KarakteristikaId");
+                            b1.HasKey("IDKarakteristike", "SifraProizvoda");
+
+                            b1.HasIndex("SifraProizvoda");
 
                             b1.ToTable("Karakteristika");
 
                             b1.WithOwner("Proizvod")
-                                .HasForeignKey("ProizvodId");
+                                .HasForeignKey("SifraProizvoda");
 
                             b1.Navigation("Proizvod");
                         });
 
                     b.Navigation("Karakteristike");
+                });
+
+            modelBuilder.Entity("Model.Domain.Grad", b =>
+                {
+                    b.Navigation("Kupci");
                 });
 #pragma warning restore 612, 618
         }

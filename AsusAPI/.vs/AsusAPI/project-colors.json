@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "8166dcf1-b751-4a30-b144-c0058891e8f1": {
+      "ProjectGuid": "8166dcf1-b751-4a30-b144-c0058891e8f1",
+      "DisplayName": "Model",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "e466f1dd-d6c8-46e5-85f4-82dd8bdf9260": {
+      "ProjectGuid": "e466f1dd-d6c8-46e5-85f4-82dd8bdf9260",
+      "DisplayName": "DataAccessLayer",
+      "ColorIndex": 1
+    },
+    "c33375b4-04f8-4d17-b0e6-fe5c5861531b": {
+      "ProjectGuid": "c33375b4-04f8-4d17-b0e6-fe5c5861531b",
+      "DisplayName": "AsusAPI",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}

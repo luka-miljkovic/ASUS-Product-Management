@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Implementation.Interfaces
 {
-    internal interface IRepositoryOdgovornoLice:IRepository<OdgovornoLice>
+    public interface IRepositoryOdgovornoLice:IRepository<OdgovornoLice>
     {
     }
 }

@@ -14,13 +14,11 @@ namespace Model.Domain
         [Key]
         public int PIB { get; set; }
         public string NazivKupca { get; set; }
-        public string UlicaIBroj { get; set; }
+        public string UlicaBroj { get; set; }
+        public int IDDrzave { get; set; }
+        public int PostanskiBroj { get; set; }
+        public Grad Grad { get; set; }
 
-        public int DrzavaId { get; set; }
-        public int GradId { get; set; }
-        
-        //public Grad? Grad { get; set; }
-        
 
     }
 }

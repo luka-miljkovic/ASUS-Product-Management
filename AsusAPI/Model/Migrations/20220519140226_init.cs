@@ -2,7 +2,7 @@
 
 namespace Model.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -10,42 +10,26 @@ namespace Model.Migrations
                 name: "Drzava",
                 columns: table => new
                 {
-                    DrzavaId = table.Column<int>(type: "int", nullable: false)
+                    IDDrzave = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NazivDrzave = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Drzava", x => x.DrzavaId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Kupac",
-                columns: table => new
-                {
-                    PIB = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NazivKupca = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UlicaIBroj = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DrzavaId = table.Column<int>(type: "int", nullable: false),
-                    GradId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Kupac", x => x.PIB);
+                    table.PrimaryKey("PK_Drzava", x => x.IDDrzave);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Proizvod",
                 columns: table => new
                 {
-                    ProizvodId = table.Column<int>(type: "int", nullable: false)
+                    SifraProizvoda = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NazivModela = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Proizvod", x => x.ProizvodId);
+                    table.PrimaryKey("PK_Proizvod", x => x.SifraProizvoda);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,19 +49,18 @@ namespace Model.Migrations
                 name: "Grad",
                 columns: table => new
                 {
-                    PostanskiBroj = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DrzavaId = table.Column<int>(type: "int", nullable: false),
+                    PostanskiBroj = table.Column<int>(type: "int", nullable: false),
+                    IDDrzave = table.Column<int>(type: "int", nullable: false),
                     NazivGrada = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Grad", x => new { x.DrzavaId, x.PostanskiBroj });
+                    table.PrimaryKey("PK_Grad", x => new { x.PostanskiBroj, x.IDDrzave });
                     table.ForeignKey(
-                        name: "FK_Grad_Drzava_DrzavaId",
-                        column: x => x.DrzavaId,
+                        name: "FK_Grad_Drzava_IDDrzave",
+                        column: x => x.IDDrzave,
                         principalTable: "Drzava",
-                        principalColumn: "DrzavaId",
+                        principalColumn: "IDDrzave",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -85,20 +68,20 @@ namespace Model.Migrations
                 name: "Karakteristika",
                 columns: table => new
                 {
-                    KarakteristikaId = table.Column<int>(type: "int", nullable: false)
+                    IDKarakteristike = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProizvodId = table.Column<int>(type: "int", nullable: false),
+                    SifraProizvoda = table.Column<int>(type: "int", nullable: false),
                     Vrednost = table.Column<double>(type: "float", nullable: false),
                     NazivKarakteristike = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Karakteristika", x => new { x.ProizvodId, x.KarakteristikaId });
+                    table.PrimaryKey("PK_Karakteristika", x => new { x.IDKarakteristike, x.SifraProizvoda });
                     table.ForeignKey(
-                        name: "FK_Karakteristika_Proizvod_ProizvodId",
-                        column: x => x.ProizvodId,
+                        name: "FK_Karakteristika_Proizvod_SifraProizvoda",
+                        column: x => x.SifraProizvoda,
                         principalTable: "Proizvod",
-                        principalColumn: "ProizvodId",
+                        principalColumn: "SifraProizvoda",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -122,6 +105,43 @@ namespace Model.Migrations
                         principalColumn: "SifraTrzista");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Kupac",
+                columns: table => new
+                {
+                    PIB = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NazivKupca = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UlicaBroj = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IDDrzave = table.Column<int>(type: "int", nullable: false),
+                    PostanskiBroj = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Kupac", x => x.PIB);
+                    table.ForeignKey(
+                        name: "FK_Kupac_Grad",
+                        columns: x => new { x.PostanskiBroj, x.IDDrzave },
+                        principalTable: "Grad",
+                        principalColumns: new[] { "PostanskiBroj", "IDDrzave" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Grad_IDDrzave",
+                table: "Grad",
+                column: "IDDrzave");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Karakteristika_SifraProizvoda",
+                table: "Karakteristika",
+                column: "SifraProizvoda");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Kupac_PostanskiBroj_IDDrzave",
+                table: "Kupac",
+                columns: new[] { "PostanskiBroj", "IDDrzave" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_OdgovornoLice_SifraTrzista",
                 table: "OdgovornoLice",
@@ -130,9 +150,6 @@ namespace Model.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Grad");
-
             migrationBuilder.DropTable(
                 name: "Karakteristika");
 
@@ -143,13 +160,16 @@ namespace Model.Migrations
                 name: "OdgovornoLice");
 
             migrationBuilder.DropTable(
-                name: "Drzava");
-
-            migrationBuilder.DropTable(
                 name: "Proizvod");
 
             migrationBuilder.DropTable(
+                name: "Grad");
+
+            migrationBuilder.DropTable(
                 name: "Trziste");
+
+            migrationBuilder.DropTable(
+                name: "Drzava");
         }
     }
 }

@@ -11,16 +11,11 @@ namespace Model.Domain
     [Table("Grad")]
     public class Grad
     {
-        //public Grad()
-        //{
-        //    Kupci = new List<Kupac>();
-        //}
-        [Column("PostanskiBroj")]
-        public int GradId { get; set; }
-        public int DrzavaId { get; set; }
+        public int PostanskiBroj { get; set; }
+        public int IDDrzave { get; set; }
         public Drzava Drzava { get; set; }
         public string NazivGrada { get; set; }
 
-        //public List<Kupac> Kupci { get; set; }
+        public List<Kupac> Kupci = new List<Kupac>();
     }
 }

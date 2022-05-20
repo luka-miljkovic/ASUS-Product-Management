@@ -11,9 +11,8 @@ namespace Model.Domain
     [Table("Karakteristika")]
     public class Karakteristika
     {
-        //[Key]
-        public int KarakteristikaId { get; set; }
-        public int ProizvodId { get; set; }
+        public int IDKarakteristike { get; set; }
+        public int SifraProizvoda { get; set; }
         public Proizvod Proizvod { get; set; }
         public double Vrednost { get; set; }
         public string NazivKarakteristike { get; set; }

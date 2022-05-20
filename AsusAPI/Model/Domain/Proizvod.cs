@@ -11,8 +11,9 @@ namespace Model.Domain
     [Table("Proizvod")]
     public class Proizvod
     {
-        public int ProizvodId { get; set; }
+        [Key]
+        public int SifraProizvoda { get; set; }
         public string NazivModela { get; set; }
-        public List<Karakteristika> Karakteristike { get; set; }
+        public List<Karakteristika> Karakteristike = new List<Karakteristika>();
     }
 }
