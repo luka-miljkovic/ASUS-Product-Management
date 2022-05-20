@@ -28,14 +28,14 @@ namespace DataAccessLayer.Implementations
             context.Remove(enthity);
         }
 
-        public OdgovornoLice FindById(int id)
+        public Task<OdgovornoLice> FindById(int id)
         {
-            return context.OdgovornaLica.Single(ol => ol.SifraRadnika == id);
+            throw new NotImplementedException();
         }
 
-        public List<OdgovornoLice> GetAll()
+        public async Task<List<OdgovornoLice>> GetAll()
         {
-            return context.OdgovornaLica.ToList();
+            throw new NotImplementedException();
         }
 
         public void Update(OdgovornoLice enthity)

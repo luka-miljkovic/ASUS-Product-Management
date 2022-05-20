@@ -27,12 +27,12 @@ namespace DataAccessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Kupac FindById(int id)
+        public Task<Kupac> FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Kupac> GetAll()
+        public async Task<List<Kupac>> GetAll()
         {
             throw new NotImplementedException();
         }

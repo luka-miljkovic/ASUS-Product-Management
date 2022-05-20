@@ -27,12 +27,12 @@ namespace DataAccessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Proizvod FindById(int id)
+        public Task<Proizvod> FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Proizvod> GetAll()
+        public async Task<List<Proizvod>> GetAll()
         {
             throw new NotImplementedException();
         }
