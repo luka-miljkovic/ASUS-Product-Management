@@ -35,7 +35,7 @@ namespace DataAccessLayer.Implementations
 
         public async Task<List<OdgovornoLice>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.OdgovornaLica.ToListAsync();
         }
 
         public void Update(OdgovornoLice enthity)

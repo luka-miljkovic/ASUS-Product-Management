@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Implementation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Domain;
 using System;
@@ -34,7 +35,7 @@ namespace DataAccessLayer.Implementations
 
         public async Task<List<Trziste>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Trzista.ToListAsync();
         }
 
         public void Update(Trziste enthity)

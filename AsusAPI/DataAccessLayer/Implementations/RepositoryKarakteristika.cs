@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Implementation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Domain;
 using System;
@@ -39,7 +40,7 @@ namespace DataAccessLayer.Implementations
 
         public async Task<List<Karakteristika>> GetAll()
         {
-            throw new NotImplementedException();
+            return await context.Karakteristike.ToListAsync();
         }
     }
 }

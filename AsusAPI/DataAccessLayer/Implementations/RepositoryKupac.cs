@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Implementation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Domain;
 using System;
@@ -19,7 +20,16 @@ namespace DataAccessLayer.Implementations
         }
         public void Add(Kupac enthity)
         {
-            throw new NotImplementedException();
+            enthity.Grad = context.Gradovi.Find(enthity.Grad.PostanskiBroj, enthity.Grad.IDDrzave);
+            try
+            {
+                context.Add(enthity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Delete(Kupac enthity)
@@ -34,7 +44,12 @@ namespace DataAccessLayer.Implementations
 
         public async Task<List<Kupac>> GetAll()
         {
-            throw new NotImplementedException();
+            var result = await context.Kupci.ToListAsync();
+            foreach(var kupac in result)
+            {
+                kupac.Grad = context.Gradovi.Find(kupac.PostanskiBroj, kupac.IDDrzave);
+            }
+            return result;
         }
 
         public void Update(Kupac enthity)

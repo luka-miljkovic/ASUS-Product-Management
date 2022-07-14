@@ -1,4 +1,5 @@
 ﻿using DataAccessLayer.Implementation.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Model;
 using Model.Domain;
 using System;
@@ -32,14 +33,19 @@ namespace DataAccessLayer.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<Drzava> FindById(int id)
+        public async Task<Drzava> FindById(int id)
         {
             throw new NotImplementedException();
         }
 
         public async Task<List<Drzava>> GetAll()
         {
-            throw new NotImplementedException();
+            var result =  await context.Drzave.ToListAsync();
+            foreach (var drzava in result)
+            {
+                drzava.Gradovi = await context.Gradovi.Where(x => x.IDDrzave == drzava.IDDrzave).ToListAsync();
+            }
+            return result;
         }
     }
 }

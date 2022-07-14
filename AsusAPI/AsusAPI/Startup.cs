@@ -1,4 +1,5 @@
 using AutoMapper;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace AsusAPI
@@ -29,6 +31,11 @@ namespace AsusAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddControllers().AddJsonOptions(opt =>
+            {
+                //opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+            });
+
             services.AddAutoMapper(typeof(Startup));
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -36,11 +43,18 @@ namespace AsusAPI
             });
             IMapper mapper = mappingConfig.CreateMapper();
 
-            services.AddControllers();
+            //ovo je falilo da radii!!!
+            services.AddSingleton(mapper);
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AsusAPI", Version = "v1" });
             });
+
+            //ovo dodajem da radi - ovo je kljucno da se doda!!!
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddDbContext<AsusContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

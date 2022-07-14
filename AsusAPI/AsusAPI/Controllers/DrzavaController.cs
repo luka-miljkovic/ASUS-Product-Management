@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DataTransferObject;
 using Model.Domain;
 
 namespace AsusAPI.Controllers
@@ -14,95 +17,34 @@ namespace AsusAPI.Controllers
     [ApiController]
     public class DrzavaController : ControllerBase
     {
-        private readonly AsusContext _context;
-
-        public DrzavaController(AsusContext context)
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper _mapper; 
+        private AsusMapper mapper = new AsusMapper();
+        public DrzavaController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            this.unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         // GET: api/Drzava
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Drzava>>> GetDrzave()
+        public async Task<ActionResult<List<Drzava>>> GetDrzave()
         {
-            return await _context.Drzave.ToListAsync();
-        }
+            var Drzave = await unitOfWork.DrzavaRepository.GetAll();
+            //return Ok(Drzave);
 
-        // GET: api/Drzava/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Drzava>> GetDrzava(int id)
-        {
-            var drzava = await _context.Drzave.FindAsync(id);
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<Drzava, DrzavaDTO>().ForMember(dest => dest.Gradovi, opt => opt.MapFrom(src => src.Gradovi.Select(x => new DrzavaDTO
+            //    {
+            //        IDDrzave = x.Drzava.IDDrzave
+            //    }))).ReverseMap();
+            //});
+            //var mapper = config.CreateMapper();
+            var drzavaDTOs = _mapper.Map<List<DrzavaDTO>>(Drzave);
 
-            if (drzava == null)
-            {
-                return NotFound();
-            }
+            return Ok(drzavaDTOs);
 
-            return drzava;
-        }
-
-        // PUT: api/Drzava/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutDrzava(int id, Drzava drzava)
-        {
-            if (id != drzava.IDDrzave)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(drzava).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DrzavaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Drzava
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Drzava>> PostDrzava(Drzava drzava)
-        {
-            _context.Drzave.Add(drzava);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDrzava", new { id = drzava.IDDrzave }, drzava);
-        }
-
-        // DELETE: api/Drzava/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDrzava(int id)
-        {
-            var drzava = await _context.Drzave.FindAsync(id);
-            if (drzava == null)
-            {
-                return NotFound();
-            }
-
-            _context.Drzave.Remove(drzava);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool DrzavaExists(int id)
-        {
-            return _context.Drzave.Any(e => e.IDDrzave == id);
         }
     }
 }

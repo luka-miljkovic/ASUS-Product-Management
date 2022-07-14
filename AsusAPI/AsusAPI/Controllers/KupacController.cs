@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DataTransferObject;
 using Model.Domain;
 
 namespace AsusAPI.Controllers
@@ -15,17 +18,24 @@ namespace AsusAPI.Controllers
     public class KupacController : ControllerBase
     {
         private readonly AsusContext _context;
+        private readonly IUnitOfWork unitOfWork;
+        private IMapper _mapper;
 
-        public KupacController(AsusContext context)
+        public KupacController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            this.unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         // GET: api/Kupac
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Kupac>>> GetKupci()
+        public async Task<ActionResult<List<KupacDTO>>> GetKupci()
         {
-            return await _context.Kupci.ToListAsync();
+            var Kupci = await unitOfWork.KupacRepository.GetAll();
+            var kupacDTOs = _mapper.Map<List<KupacDTO>>(Kupci);
+
+            return Ok(kupacDTOs);
+
         }
 
         // GET: api/Kupac/5
@@ -76,12 +86,18 @@ namespace AsusAPI.Controllers
         // POST: api/Kupac
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Kupac>> PostKupac(Kupac kupac)
+        public void PostKupac(KupacDTO kupac)
         {
-            _context.Kupci.Add(kupac);
-            await _context.SaveChangesAsync();
+            Kupac k = new Kupac
+            {
+                PIB = kupac.PIB,
+                NazivKupca = kupac.NazivKupca,
+                UlicaBroj = kupac.UlicaBroj,
+                Grad = new Grad { PostanskiBroj = kupac.Grad.PostanskiBroj, IDDrzave = kupac.Grad.IDDrzave }
+            };
 
-            return CreatedAtAction("GetKupac", new { id = kupac.PIB }, kupac);
+            unitOfWork.KupacRepository.Add(k);
+            unitOfWork.Commit();
         }
 
         // DELETE: api/Kupac/5

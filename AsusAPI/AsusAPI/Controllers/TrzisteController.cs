@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DataTransferObject;
 using Model.Domain;
 
 namespace AsusAPI.Controllers
@@ -14,18 +17,28 @@ namespace AsusAPI.Controllers
     [ApiController]
     public class TrzisteController : ControllerBase
     {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper _mapper;
+        private AsusMapper mapper = new AsusMapper();
         private readonly AsusContext _context;
 
-        public TrzisteController(AsusContext context)
+        public TrzisteController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            this.unitOfWork = unitOfWork;
+            this._mapper = mapper;
         }
 
         // GET: api/Trziste
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Trziste>>> GetTrzista()
+        public async Task<ActionResult<List<Trziste>>> GetTrzista()
         {
-            return await _context.Trzista.ToListAsync();
+            var Trzista = await unitOfWork.TrzisteRepository.GetAll();
+            List<TrzisteDTO> trzisteDTOs = new List<TrzisteDTO>();
+
+            //var config = new MapperConfiguration(mc=>mc.CreateMap<Trziste, TrzisteDTO>)
+            //return await _context.Trzista.ToListAsync();
+
+            return Trzista;
         }
 
         // GET: api/Trziste/5

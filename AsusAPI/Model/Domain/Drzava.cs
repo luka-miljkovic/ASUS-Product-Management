@@ -14,7 +14,6 @@ namespace Model.Domain
         [Key]
         public int IDDrzave { get; set; }
         public string NazivDrzave { get; set; }
-        public List<Grad> Gradovi = new List<Grad>();
-        public List<Kupac> Kupci = new List<Kupac>();
+        public List<Grad> Gradovi { get; set; }
     }
 }

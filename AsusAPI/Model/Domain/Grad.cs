@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Model.Domain
@@ -13,6 +14,7 @@ namespace Model.Domain
     {
         public int PostanskiBroj { get; set; }
         public int IDDrzave { get; set; }
+        [JsonIgnore]
         public Drzava Drzava { get; set; }
         public string NazivGrada { get; set; }
 
