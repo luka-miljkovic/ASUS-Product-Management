@@ -38,6 +38,11 @@ namespace DataAccessLayer.Implementations
             return await context.Trzista.ToListAsync();
         }
 
+        public Task<List<Trziste>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Trziste enthity)
         {
             throw new NotImplementedException();

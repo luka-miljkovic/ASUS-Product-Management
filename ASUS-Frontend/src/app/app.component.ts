@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ASUS-Frontend';
+  KupciScreen!:boolean;
+  ProizvodiScreen!:boolean;
 }

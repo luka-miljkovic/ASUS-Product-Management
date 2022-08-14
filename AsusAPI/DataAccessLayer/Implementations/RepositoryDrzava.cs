@@ -47,5 +47,10 @@ namespace DataAccessLayer.Implementations
             }
             return result;
         }
+
+        public Task<List<Drzava>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace AsusAPI
 
             //ovo je falilo da radii!!!
             services.AddSingleton(mapper);
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AsusAPI", Version = "v1" });
@@ -70,6 +70,9 @@ namespace AsusAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //ovo sam dodao da radi na frontu kada saljem json
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 

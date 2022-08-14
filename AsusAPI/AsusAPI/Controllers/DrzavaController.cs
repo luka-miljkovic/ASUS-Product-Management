@@ -19,7 +19,7 @@ namespace AsusAPI.Controllers
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper _mapper; 
-        private AsusMapper mapper = new AsusMapper();
+        //private AsusMapper mapper = new AsusMapper();
         public DrzavaController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
@@ -28,10 +28,10 @@ namespace AsusAPI.Controllers
 
         // GET: api/Drzava
         [HttpGet]
-        public async Task<ActionResult<List<Drzava>>> GetDrzave()
+        public async Task<ActionResult<List<DrzavaDTO>>> GetDrzave()
         {
             var Drzave = await unitOfWork.DrzavaRepository.GetAll();
-            //return Ok(Drzave);
+            return Ok(Drzave);
 
             //var config = new MapperConfiguration(cfg =>
             //{

@@ -33,7 +33,7 @@ namespace Model
             modelBuilder.Entity<Karakteristika>().HasKey(k => new { k.IDKarakteristike, k.SifraProizvoda });
 
             //modelBuilder.Entity<Drzava>().OwnsMany(e => e.Gradovi).WithOwner(e => e.Drzava);
-            modelBuilder.Entity<Proizvod>().OwnsMany(s => s.Karakteristike).WithOwner(t => t.Proizvod);
+            modelBuilder.Entity<Proizvod>().OwnsMany(p => p.Karakteristike).WithOwner(k => k.Proizvod);
             
 
             modelBuilder.Entity<OdgovornoLice>().HasOne(e => e.Trziste).WithMany().

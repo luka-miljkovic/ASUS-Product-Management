@@ -52,6 +52,11 @@ namespace DataAccessLayer.Implementations
             return result;
         }
 
+        public Task<List<Kupac>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Kupac enthity)
         {
             throw new NotImplementedException();

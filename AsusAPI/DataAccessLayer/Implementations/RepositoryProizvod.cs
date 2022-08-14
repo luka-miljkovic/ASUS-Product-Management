@@ -38,6 +38,11 @@ namespace DataAccessLayer.Implementations
             return await context.Proizvodi.ToListAsync();
         }
 
+        public Task<List<Proizvod>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Proizvod enthity)
         {
             throw new NotImplementedException();

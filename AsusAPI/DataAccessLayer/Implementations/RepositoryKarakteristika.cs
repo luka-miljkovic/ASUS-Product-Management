@@ -42,5 +42,10 @@ namespace DataAccessLayer.Implementations
         {
             return await context.Karakteristike.ToListAsync();
         }
+
+        public Task<List<Karakteristika>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

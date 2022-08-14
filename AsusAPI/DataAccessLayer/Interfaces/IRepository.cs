@@ -12,6 +12,7 @@ namespace DataAccessLayer
         public void Update(TEnthity enthity);
         public void Delete(TEnthity enthity);
         Task<List<TEnthity>> GetAll();
+        Task<List<TEnthity>> GetAllWithCondition(int condition);
         Task<TEnthity> FindById(int id);
     }
 }

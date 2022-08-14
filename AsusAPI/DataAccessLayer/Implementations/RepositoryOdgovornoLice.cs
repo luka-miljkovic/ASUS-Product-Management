@@ -38,6 +38,11 @@ namespace DataAccessLayer.Implementations
             return await context.OdgovornaLica.ToListAsync();
         }
 
+        public Task<List<OdgovornoLice>> GetAllWithCondition(int condition)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(OdgovornoLice enthity)
         {
             context.Entry(enthity).State = EntityState.Modified;

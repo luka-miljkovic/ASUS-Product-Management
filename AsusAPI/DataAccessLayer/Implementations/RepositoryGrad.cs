@@ -42,5 +42,10 @@ namespace DataAccessLayer.Implementations
         {
             return await context.Gradovi.ToListAsync();
         }
+
+        public async Task<List<Grad>> GetAllWithCondition(int condition)
+        {
+            return await context.Gradovi.Where(x => x.IDDrzave == condition).ToListAsync();
+        }
     }
 }

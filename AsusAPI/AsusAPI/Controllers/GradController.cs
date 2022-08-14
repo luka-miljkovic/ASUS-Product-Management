@@ -36,5 +36,15 @@ namespace AsusAPI.Controllers
             return Ok(gradDTOs);
         }
 
+        // GET: api/Grad/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<List<GradDTO>>> GetGradoviByCond(int id)
+        {
+            var Gradovi = await unitOfWork.GradRepository.GetAllWithCondition(id);
+            var gradDTOs = _mapper.Map<List<GradDTO>>(Gradovi);
+
+            return Ok(gradDTOs);
+        }
+
     }
 }
