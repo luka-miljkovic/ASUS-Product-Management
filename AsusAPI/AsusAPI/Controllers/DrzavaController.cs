@@ -46,5 +46,16 @@ namespace AsusAPI.Controllers
             return Ok(drzavaDTOs);
 
         }
+
+        // GET api/Drzava/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DrzavaDTO>> Get(int id)
+        {
+            Drzava drzava = await unitOfWork.DrzavaRepository.FindById(id);
+
+            var drzavaDTO = _mapper.Map<DrzavaDTO>(drzava);
+
+            return Ok(drzavaDTO);
+        }
     }
 }

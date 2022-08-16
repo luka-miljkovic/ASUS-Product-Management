@@ -34,7 +34,7 @@ namespace DataAccessLayer.Implementations
 
         public void Delete(Kupac enthity)
         {
-            throw new NotImplementedException();
+            context.Kupci.Remove(enthity);
         }
 
         public Task<Kupac> FindById(int id)
@@ -59,7 +59,16 @@ namespace DataAccessLayer.Implementations
 
         public void Update(Kupac enthity)
         {
-            throw new NotImplementedException();
+            enthity.Grad = context.Gradovi.Find(enthity.Grad.PostanskiBroj, enthity.Grad.IDDrzave);
+            try
+            {
+                context.Update(enthity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

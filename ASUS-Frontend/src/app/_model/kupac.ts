@@ -1,10 +1,12 @@
+import { Drzava } from "./drzava";
 import { Grad } from "./grad";
 
 export interface Kupac {
     pib:number,
     nazivKupca:string,
-    ulicaIBroj:string,
+    ulicaBroj:string,
     idDrzave:number,
     postanskiBroj:number,
-    grad:Grad
+    grad:Grad,
+    drzava: Drzava
 }

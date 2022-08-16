@@ -35,7 +35,9 @@ namespace DataAccessLayer.Implementations
 
         public async Task<Drzava> FindById(int id)
         {
-            throw new NotImplementedException();
+            var result = await context.Drzave.Include(g => g.Gradovi).Where(d => d.IDDrzave == id).FirstOrDefaultAsync();
+
+            return result;
         }
 
         public async Task<List<Drzava>> GetAll()

@@ -16,5 +16,6 @@ namespace Model.DataTransferObject
         public int IDDrzave { get; set; }
         public int PostanskiBroj { get; set; }
         public GradDTO Grad { get; set; }
+        public DrzavaDTO Drzava { get; set; }
     }
 }

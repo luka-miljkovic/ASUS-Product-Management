@@ -14,6 +14,6 @@ namespace Model.Domain
         [Key]
         public int SifraProizvoda { get; set; }
         public string NazivModela { get; set; }
-        public List<Karakteristika> Karakteristike = new List<Karakteristika>();
+        public List<Karakteristika> Karakteristike { get; set; }
     }
 }

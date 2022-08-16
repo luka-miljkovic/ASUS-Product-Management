@@ -15,7 +15,7 @@ namespace Model
         {
             CreateMap<Kupac, KupacDTO>();
             CreateMap<Proizvod, ProizvodDTO>();
-            CreateMap<Drzava, DrzavaDTO>().ForMember(dest => dest.Gradovi, opt => opt.MapFrom(MapDrzavaGrad));
+            CreateMap<Drzava, DrzavaDTO>().ForMember(dest => dest.Gradovi, opt => opt.MapFrom(MapDrzavaGrad)).ReverseMap();
             CreateMap<Grad, GradDTO>().ReverseMap();
             CreateMap<Kupac, KupacDTO>().ForMember(dest => dest.Grad, opt => opt.MapFrom(MapKupacGrad));
             //CreateMap<Grad, GradDTO>().ForMember(dest=>dest.Kupci, opt=>opt.MapFrom(src=>src.Kupci.Select(x=>new GradDTO
@@ -43,7 +43,7 @@ namespace Model
             return result;
         }
 
-        private GradDTO MapKupacGrad(Kupac kupac, KupacDTO kupacDTp)
+        private GradDTO MapKupacGrad(Kupac kupac, KupacDTO kupacDTO)
         {
             GradDTO result = null;
             if(kupac.Grad != null)
@@ -57,6 +57,7 @@ namespace Model
             }
             return result;
         }
+
 
     }
 }

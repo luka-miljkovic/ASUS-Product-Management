@@ -34,6 +34,17 @@ namespace AsusAPI.Controllers
             var Kupci = await unitOfWork.KupacRepository.GetAll();
             var kupacDTOs = _mapper.Map<List<KupacDTO>>(Kupci);
 
+            foreach(KupacDTO kupac in kupacDTOs)
+            {
+                Drzava d = await unitOfWork.DrzavaRepository.FindById(kupac.IDDrzave);
+                kupac.Drzava = new DrzavaDTO
+                {
+                    IDDrzave = d.IDDrzave,
+                    NazivDrzave = d.NazivDrzave
+                };
+            }
+          
+
             return Ok(kupacDTOs);
 
         }
@@ -55,32 +66,18 @@ namespace AsusAPI.Controllers
         // PUT: api/Kupac/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutKupac(int id, Kupac kupac)
+        public void PutKupac([FromBody] KupacDTO kupacDTO)
         {
-            if (id != kupac.PIB)
+            Kupac k = new Kupac
             {
-                return BadRequest();
-            }
+                PIB = kupacDTO.PIB,
+                NazivKupca = kupacDTO.NazivKupca,
+                UlicaBroj = kupacDTO.UlicaBroj,
+                Grad = new Grad { PostanskiBroj = kupacDTO.Grad.PostanskiBroj, IDDrzave = kupacDTO.Grad.IDDrzave }
+            };
 
-            _context.Entry(kupac).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!KupacExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            unitOfWork.KupacRepository.Update(k);
+            unitOfWork.Commit();
         }
 
         // POST: api/Kupac
@@ -102,18 +99,10 @@ namespace AsusAPI.Controllers
 
         // DELETE: api/Kupac/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteKupac(int id)
+        public void DeleteKupac(int id)
         {
-            var kupac = await _context.Kupci.FindAsync(id);
-            if (kupac == null)
-            {
-                return NotFound();
-            }
-
-            _context.Kupci.Remove(kupac);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            unitOfWork.KupacRepository.Delete(new Kupac { PIB = id });
+            unitOfWork.Commit();
         }
 
         private bool KupacExists(int id)
