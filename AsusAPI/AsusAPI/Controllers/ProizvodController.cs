@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DataAccessLayer.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
+using Model.DataTransferObject;
 using Model.Domain;
 
 namespace AsusAPI.Controllers
@@ -14,18 +17,25 @@ namespace AsusAPI.Controllers
     [ApiController]
     public class ProizvodController : ControllerBase
     {
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+
         private readonly AsusContext _context;
 
-        public ProizvodController(AsusContext context)
+        public ProizvodController(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _context = context;
+            this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
 
         // GET: api/Proizvod
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Proizvod>>> GetProizvodi()
+        public async Task<ActionResult<List<ProizvodDTO>>> GetProizvodi()
         {
-            return await _context.Proizvodi.ToListAsync();
+            var proizvodi = await unitOfWork.ProizvodRepository.GetAll();
+            var proizvodDTOs = mapper.Map<List<ProizvodDTO>>(proizvodi);
+
+            return Ok(proizvodDTOs);
         }
 
         // GET: api/Proizvod/5
@@ -76,12 +86,13 @@ namespace AsusAPI.Controllers
         // POST: api/Proizvod
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Proizvod>> PostProizvod(Proizvod proizvod)
+        public void PostProizvod(ProizvodDTO proizvod)
         {
-            _context.Proizvodi.Add(proizvod);
-            await _context.SaveChangesAsync();
+            Proizvod p = mapper.Map<Proizvod>(proizvod);
 
-            return CreatedAtAction("GetProizvod", new { id = proizvod.SifraProizvoda }, proizvod);
+            unitOfWork.ProizvodRepository.Add(p);
+            unitOfWork.Commit();
+
         }
 
         // DELETE: api/Proizvod/5

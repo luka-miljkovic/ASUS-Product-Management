@@ -12,7 +12,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Drzava</mat-label>
             <mat-select formControlName="drzava"  [(value)]="selectedValueDrzava">
-              <mat-option *ngFor="let drzava of drzave" [value]="drzava" (click)="vratiGradove()">
+              <mat-option *ngFor="let drzava of drzave" [value]="drzava.idDrzave" (click)="vratiGradove()" >
                 {{drzava.nazivDrzave}}
               </mat-option>
             </mat-select>
@@ -20,7 +20,7 @@
         <mat-form-field appearance="fill">
             <mat-label>Grad</mat-label>
             <mat-select formControlName="grad" [(value)]="selectedValueGrad">
-              <mat-option *ngFor="let grad of gradovi" [value]="grad" (click)="ispisi()">
+              <mat-option *ngFor="let grad of gradovi" [value]="grad.nazivGrada" (click)="ispisi()">
                 {{grad.nazivGrada}}
               </mat-option>
             </mat-select>

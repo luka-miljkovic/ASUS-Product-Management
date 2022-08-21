@@ -14,10 +14,11 @@ namespace Model
         public AsusMapper()
         {
             CreateMap<Kupac, KupacDTO>();
-            CreateMap<Proizvod, ProizvodDTO>();
+            CreateMap<Proizvod, ProizvodDTO>().ForMember(dest => dest.Karakteristike, opt => opt.MapFrom(MapProizvodKarakteristika)).ReverseMap();
             CreateMap<Drzava, DrzavaDTO>().ForMember(dest => dest.Gradovi, opt => opt.MapFrom(MapDrzavaGrad)).ReverseMap();
             CreateMap<Grad, GradDTO>().ReverseMap();
             CreateMap<Kupac, KupacDTO>().ForMember(dest => dest.Grad, opt => opt.MapFrom(MapKupacGrad));
+            CreateMap<Karakteristika, KarakteristikaDTO>().ReverseMap();
             //CreateMap<Grad, GradDTO>().ForMember(dest=>dest.Kupci, opt=>opt.MapFrom(src=>src.Kupci.Select(x=>new GradDTO
             //{
             //    PostanskiBroj = x.Grad.PostanskiBroj,
@@ -36,7 +37,12 @@ namespace Model
                     {
                         PostanskiBroj = grad.PostanskiBroj,
                         IDDrzave = drzava.IDDrzave,
-                        NazivGrada = grad.NazivGrada
+                        NazivGrada = grad.NazivGrada,
+                        //Drzava = new DrzavaDTO
+                        //{
+                        //    IDDrzave = drzava.IDDrzave,
+                        //    NazivDrzave = drzava.NazivDrzave
+                        //}
                     });
                 }
             }
@@ -55,6 +61,24 @@ namespace Model
                     NazivGrada = kupac.Grad.NazivGrada
                 };
             }
+            return result;
+        }
+
+        private List<KarakteristikaDTO> MapProizvodKarakteristika(Proizvod proizvod, ProizvodDTO proizvodDTO)
+        {
+            var result = new List<KarakteristikaDTO>();
+            foreach(var item in proizvod.Karakteristike)
+            {
+                KarakteristikaDTO karakteristika = new KarakteristikaDTO
+                {
+                    IDKarakteristike = item.IDKarakteristike,
+                    SifraProizvoda = item.SifraProizvoda,
+                    NazivKarakteristike = item.NazivKarakteristike,
+                    Vrednost = item.Vrednost
+                };
+                result.Add(karakteristika);
+            }
+
             return result;
         }
 

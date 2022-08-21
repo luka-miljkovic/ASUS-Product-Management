@@ -15,8 +15,8 @@ export class KupciUnosComponent implements OnInit {
 
   drzave!:Drzava[];
   test!:boolean;
-  selectedValueDrzava!:Drzava;
-  selectedValueGrad!:Grad;
+  selectedValueDrzava!:Drzava['idDrzave'];
+  selectedValueGrad!:Grad['nazivGrada'];
   gradovi!:Grad[];
   gradoviFront!:Grad[];
   kupciForm!:FormGroup;
@@ -49,16 +49,17 @@ export class KupciUnosComponent implements OnInit {
     });
 
     //console.log(this.editData);
-
+    
     if(this.editData){
       console.log(this.editData);
       this.actionBtn = "Izmeni";
+      this.selectedValueDrzava = this.editData.drzava.idDrzave;
+      this.vratiGradove();
       this.kupciForm.controls["pib"].setValue(this.editData.pib);
       this.kupciForm.controls["nazivKupca"].setValue(this.editData.nazivKupca);
       this.kupciForm.controls["adresa"].setValue(this.editData.ulicaBroj);
-      this.kupciForm.controls["drzava"].setValue(this.editData.drzava);
-      this.selectedValueDrzava = this.editData.drzava;
-      this.kupciForm.controls["grad"].setValue(this.editData.grad);
+      this.kupciForm.controls["drzava"].setValue(this.editData.drzava.idDrzave);
+      this.kupciForm.controls["grad"].setValue(this.editData.grad.nazivGrada);
       this.kupciForm.controls["pib"].setValue(this.editData.pib);
     }
     
@@ -67,7 +68,7 @@ export class KupciUnosComponent implements OnInit {
   vratiGradove(){
     console.log("ulazim");
     console.log(this.selectedValueDrzava);
-    this.apiService.vratiGradove(this.selectedValueDrzava.idDrzave).subscribe(response =>{
+    this.apiService.vratiGradove(this.selectedValueDrzava).subscribe(response =>{
        this.gradovi = response;
     })
     //this.gradovi = this.selectedValueDrzava.gradovi;
@@ -81,8 +82,8 @@ export class KupciUnosComponent implements OnInit {
 
     this.kupac.pib = this.kupciForm.value["pib"];
       this.kupac.nazivKupca = this.kupciForm.value["nazivKupca"];
-      this.kupac.grad = this.kupciForm.value["grad"];
-      this.kupac.drzava = this.kupciForm.value["drzava"];
+      this.kupac.grad = this.gradovi.filter(grad => grad.nazivGrada === this.kupciForm.value["grad"])[0];
+      this.kupac.drzava = this.drzave.filter(drzava => drzava.idDrzave === this.kupciForm.value["drzava"])[0];
       //this.kupac.grad.drzava.gradovi = nu;
       this.kupac.idDrzave = this.kupac.grad.idDrzave;
       this.kupac.postanskiBroj = this.kupac.grad.postanskiBroj;

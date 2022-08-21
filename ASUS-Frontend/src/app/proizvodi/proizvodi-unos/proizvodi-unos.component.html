@@ -1,0 +1,78 @@
+
+
+<div mat-dialog-content>
+    <form [formGroup]="proizvodiForm">
+        <mat-form-field appearance="outline">
+            <mat-label>Sifra proizvoda</mat-label>
+            <input formControlName="sifraProizvoda" matInput type="number" placeholder="Placeholder">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Naziv modela</mat-label>
+            <input formControlName="nazivModela" matInput placeholder="Placeholder">
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="outline">
+            <mat-label>Naziv</mat-label>
+            <input formControlName="nazivKarakteristike" matInput type="text" placeholder="Placeholder">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Vrednost</mat-label>
+            <input formControlName="vrednost" matInput type="number" placeholder="Placeholder">
+        </mat-form-field>
+        <button mat-icon-button color="primary" (click)="dodajKarakteristiku()">Dodaj karakteristiku</button>
+    </form>
+</div>
+<!-- <div mat-dialog-content>
+    <form [formGroup]="karakteristikeForm">
+        
+
+
+    </form>
+</div> -->
+
+<div>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="redniBroj">
+          <th mat-header-cell *matHeaderCellDef> redni broj </th>
+          <td mat-cell *matCellDef="let element"> {{element.idKarakteristike}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="sifraProizvoda">
+          <th mat-header-cell *matHeaderCellDef> sifra proizvoda </th>
+          <td mat-cell *matCellDef="let element"> {{element.sifraProizvoda}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="nazivKarakteristike">
+          <th mat-header-cell *matHeaderCellDef> naziv </th>
+          <td mat-cell *matCellDef="let element"> {{element.nazivKarakteristike}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="vrednost">
+          <th mat-header-cell *matHeaderCellDef> vrednost </th>
+          <td mat-cell *matCellDef="let element"> {{element.vrednost}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element"> 
+                <button mat-icon-button color="primary" (click)="izmeniKarakteristiku(element)">
+                    Izmeni
+                </button>    
+                <button  mat-icon-button color="warn" (click)="obrisiKarakteristiku(element)">
+                    Obrisi
+                </button> 
+            </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+</div>
+
+<br>
+
+<button (click)="sacuvajProizvod()">Unesi proizvod</button>
+
+
+

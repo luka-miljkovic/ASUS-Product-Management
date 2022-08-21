@@ -20,7 +20,14 @@ namespace DataAccessLayer.Implementations
         }
         public void Add(Proizvod enthity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                context.Proizvodi.Add(enthity);
+            }
+            catch(Exception)
+            {
+                throw;
+            }
         }
 
         public void Delete(Proizvod enthity)
@@ -35,7 +42,14 @@ namespace DataAccessLayer.Implementations
 
         public async Task<List<Proizvod>> GetAll()
         {
-            return await context.Proizvodi.ToListAsync();
+            var result = await context.Proizvodi.ToListAsync();
+
+            foreach(Proizvod p in result)
+            {
+                p.Karakteristike = await context.Karakteristike.Where(k => k.SifraProizvoda == p.SifraProizvoda).ToListAsync();
+            }
+
+            return result;
         }
 
         public Task<List<Proizvod>> GetAllWithCondition(int condition)

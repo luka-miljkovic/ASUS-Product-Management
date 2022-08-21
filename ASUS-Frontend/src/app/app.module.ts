@@ -26,6 +26,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import { ProizvodiUnosComponent } from './proizvodi/proizvodi-unos/proizvodi-unos.component';
+import { KarakteristikaComponent } from './karakteristika/karakteristika.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import {MatSortModule} from '@angular/material/sort';
     KupciPrikazComponent,
     HomeComponent,
     NavComponent,
-    ProizvodiComponent
+    ProizvodiComponent,
+    ProizvodiUnosComponent,
+    KarakteristikaComponent
   ],
   imports: [
     BrowserModule,

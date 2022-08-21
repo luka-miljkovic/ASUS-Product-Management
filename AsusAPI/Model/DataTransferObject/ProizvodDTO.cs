@@ -12,6 +12,6 @@ namespace Model.DataTransferObject
         [Key]
         public int SifraProizvoda { get; set; }
         public string NazivModela { get; set; }
-        public List<KarakteristikaDTO> Karakteristike = new List<KarakteristikaDTO>();
+        public List<KarakteristikaDTO> Karakteristike { get; set; }
     }
 }

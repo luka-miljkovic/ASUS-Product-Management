@@ -34,6 +34,8 @@ namespace Model
 
             //modelBuilder.Entity<Drzava>().OwnsMany(e => e.Gradovi).WithOwner(e => e.Drzava);
             //modelBuilder.Entity<Proizvod>().OwnsMany(p => p.Karakteristike).WithOwner(k => k.Proizvod);
+
+            modelBuilder.Entity<Proizvod>().HasMany(p => p.Karakteristike).WithOne(k => k.Proizvod);
             
 
             modelBuilder.Entity<OdgovornoLice>().HasOne(e => e.Trziste).WithMany().

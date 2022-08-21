@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ProizvodiUnosComponent } from './proizvodi-unos/proizvodi-unos.component';
 
 @Component({
   selector: 'app-proizvodi',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProizvodiComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
   }
+
+  openDialog(){
+    this.dialog.open(ProizvodiUnosComponent, {
+      width:'100%'
+    });
+
+  }
+
+
 
 }
