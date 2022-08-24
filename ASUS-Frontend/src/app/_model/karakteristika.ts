@@ -1,7 +1,7 @@
 export interface Karakteristika {
-    idKarakteristike:number,
-    sifraProizvoda:number,
-    vrednost:number,
-    nazivKarakteristike:string
+    IDKarakteristike:number,
+    SifraProizvoda:number,
+    Vrednost:number,
+    NazivKarakteristike:string
 
 }

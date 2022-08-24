@@ -29,13 +29,16 @@ namespace Model
             modelBuilder.Entity<Proizvod>().HasKey(p => p.SifraProizvoda);
             modelBuilder.Entity<Drzava>().HasKey(p => p.IDDrzave);
 
+            modelBuilder.Entity<Drzava>().HasMany(d => d.Gradovi).WithOne(g => g.Drzava);
             modelBuilder.Entity<Grad>().HasKey(g => new { g.PostanskiBroj, g.IDDrzave });
+
+            //modelBuilder.Entity<Proizvod>().HasMany(p => p.Karakteristike).WithOne(k => k.Proizvod);
             modelBuilder.Entity<Karakteristika>().HasKey(k => new { k.IDKarakteristike, k.SifraProizvoda });
 
             //modelBuilder.Entity<Drzava>().OwnsMany(e => e.Gradovi).WithOwner(e => e.Drzava);
             //modelBuilder.Entity<Proizvod>().OwnsMany(p => p.Karakteristike).WithOwner(k => k.Proizvod);
 
-            modelBuilder.Entity<Proizvod>().HasMany(p => p.Karakteristike).WithOne(k => k.Proizvod);
+            
             
 
             modelBuilder.Entity<OdgovornoLice>().HasOne(e => e.Trziste).WithMany().
@@ -45,7 +48,7 @@ namespace Model
             {
 
                 entity.HasOne(k => k.Grad)
-                    .WithMany(p => p.Kupci)
+                    .WithMany()
                     .HasForeignKey(k => new {k.PostanskiBroj, k.IDDrzave})
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_Kupac_Grad");

@@ -54,33 +54,13 @@ namespace AsusAPI.Controllers
 
         // PUT: api/Proizvod/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProizvod(int id, Proizvod proizvod)
+        [HttpPut]
+        public void PutProizvod(ProizvodDTO proizvod)
         {
-            if (id != proizvod.SifraProizvoda)
-            {
-                return BadRequest();
-            }
+            Proizvod p = mapper.Map<Proizvod>(proizvod);
 
-            _context.Entry(proizvod).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProizvodExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            unitOfWork.ProizvodRepository.Update(p);
+            unitOfWork.Commit();
         }
 
         // POST: api/Proizvod
@@ -97,18 +77,10 @@ namespace AsusAPI.Controllers
 
         // DELETE: api/Proizvod/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProizvod(int id)
+        public void DeleteProizvod(int id)
         {
-            var proizvod = await _context.Proizvodi.FindAsync(id);
-            if (proizvod == null)
-            {
-                return NotFound();
-            }
-
-            _context.Proizvodi.Remove(proizvod);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            unitOfWork.ProizvodRepository.Delete(new Proizvod { SifraProizvoda = id });
+            unitOfWork.Commit();
         }
 
         private bool ProizvodExists(int id)

@@ -11,28 +11,29 @@ import { Proizvod } from '../_model/proizvod';
 })
 export class ApiService {
   baseUrl = environment.apiUrl;
-  vrednost:number = 3423;
-  nazivKarakteristike:string = "lala";
+  Vrednost:number = 0;
+  NazivKarakteristike:string = "";
 
   constructor(private http: HttpClient) { }
 
   getVrednost():number{
-    return this.vrednost;
+    return this.Vrednost;
   }
 
   getNazivKarakteristike():string{
-    return this.nazivKarakteristike;
+    return this.NazivKarakteristike;
   }
 
-  setVrednost(vrednost:number){
-    this.vrednost = vrednost;
+  setVrednost(Vrednost:number){
+    this.Vrednost = Vrednost;
   }
 
   setNaziv(naziv:string){
-    this.nazivKarakteristike = naziv;
+    this.NazivKarakteristike = naziv;
   }
 
   vratiKupce(): Observable<any>{
+    console.log(this.baseUrl + 'Kupac');
     return this.http.get<any>(this.baseUrl + 'Kupac');
   }
 
@@ -49,8 +50,8 @@ export class ApiService {
   
   }
 
-  vratiGradove(idDrzave:number): Observable<any>{
-    return this.http.get<any>(this.baseUrl + 'Grad/' + idDrzave);
+  vratiGradove(IDDrzave:number): Observable<any>{
+    return this.http.get<any>(this.baseUrl + 'Grad/' + IDDrzave);
   }
 
   unesiKupca(kupac:Kupac): Observable<any>{
@@ -67,5 +68,18 @@ export class ApiService {
 
   unesiProizvod(proizvod:Proizvod): Observable<any>{
     return this.http.post<any>(this.baseUrl + 'Proizvod/', proizvod);
+  }
+
+  vratiProizvode() :Observable<any>{
+    return this.http.get<any>(this.baseUrl + 'Proizvod');
+  }
+
+  izmeniProizvod(proizvod:Proizvod) : Observable<any>{
+    return this.http.put<any>(this.baseUrl + 'Proizvod', proizvod);
+  }
+
+  obrisiProizvod(id:number):Observable<any>{
+    console.log(this.baseUrl + 'Proizvod/' + id);
+    return this.http.delete<any>(this.baseUrl + 'Proizvod/' + id);
   }
 }

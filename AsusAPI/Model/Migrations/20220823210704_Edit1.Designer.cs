@@ -9,8 +9,8 @@ using Model;
 namespace Model.Migrations
 {
     [DbContext(typeof(AsusContext))]
-    [Migration("20220519140226_init")]
-    partial class init
+    [Migration("20220823210704_Edit1")]
+    partial class Edit1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,6 +51,27 @@ namespace Model.Migrations
                     b.HasIndex("IDDrzave");
 
                     b.ToTable("Grad");
+                });
+
+            modelBuilder.Entity("Model.Domain.Karakteristika", b =>
+                {
+                    b.Property<int>("IDKarakteristike")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SifraProizvoda")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NazivKarakteristike")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Vrednost")
+                        .HasColumnType("float");
+
+                    b.HasKey("IDKarakteristike", "SifraProizvoda");
+
+                    b.HasIndex("SifraProizvoda");
+
+                    b.ToTable("Karakteristika");
                 });
 
             modelBuilder.Entity("Model.Domain.Kupac", b =>
@@ -135,7 +156,7 @@ namespace Model.Migrations
             modelBuilder.Entity("Model.Domain.Grad", b =>
                 {
                     b.HasOne("Model.Domain.Drzava", "Drzava")
-                        .WithMany()
+                        .WithMany("Gradovi")
                         .HasForeignKey("IDDrzave")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -143,10 +164,21 @@ namespace Model.Migrations
                     b.Navigation("Drzava");
                 });
 
+            modelBuilder.Entity("Model.Domain.Karakteristika", b =>
+                {
+                    b.HasOne("Model.Domain.Proizvod", "Proizvod")
+                        .WithMany("Karakteristike")
+                        .HasForeignKey("SifraProizvoda")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Proizvod");
+                });
+
             modelBuilder.Entity("Model.Domain.Kupac", b =>
                 {
                     b.HasOne("Model.Domain.Grad", "Grad")
-                        .WithMany("Kupci")
+                        .WithMany()
                         .HasForeignKey("PostanskiBroj", "IDDrzave")
                         .HasConstraintName("FK_Kupac_Grad")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -166,42 +198,14 @@ namespace Model.Migrations
                     b.Navigation("Trziste");
                 });
 
-            modelBuilder.Entity("Model.Domain.Proizvod", b =>
+            modelBuilder.Entity("Model.Domain.Drzava", b =>
                 {
-                    b.OwnsMany("Model.Domain.Karakteristika", "Karakteristike", b1 =>
-                        {
-                            b1.Property<int>("IDKarakteristike")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<int>("SifraProizvoda")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("NazivKarakteristike")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<double>("Vrednost")
-                                .HasColumnType("float");
-
-                            b1.HasKey("IDKarakteristike", "SifraProizvoda");
-
-                            b1.HasIndex("SifraProizvoda");
-
-                            b1.ToTable("Karakteristika");
-
-                            b1.WithOwner("Proizvod")
-                                .HasForeignKey("SifraProizvoda");
-
-                            b1.Navigation("Proizvod");
-                        });
-
-                    b.Navigation("Karakteristike");
+                    b.Navigation("Gradovi");
                 });
 
-            modelBuilder.Entity("Model.Domain.Grad", b =>
+            modelBuilder.Entity("Model.Domain.Proizvod", b =>
                 {
-                    b.Navigation("Kupci");
+                    b.Navigation("Karakteristike");
                 });
 #pragma warning restore 612, 618
         }

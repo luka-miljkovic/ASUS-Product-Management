@@ -12,13 +12,14 @@ import { ApiService } from '../_services/api.service';
 export class KarakteristikaComponent implements OnInit {
 
   @Input() karakteristika:Karakteristika = {
-    idKarakteristike:0,
-    sifraProizvoda:0,
-    vrednost:0,
-    nazivKarakteristike:""
+    IDKarakteristike:0,
+    SifraProizvoda:0,
+    Vrednost:0,
+    NazivKarakteristike:""
   };
 
   karakteristikaForm!:FormGroup;
+  naslov:string = "Unos nove karakteristike"
 
   constructor(private dialogRef : MatDialogRef<KarakteristikaComponent>, 
     @Inject(MAT_DIALOG_DATA) public editData:any,
@@ -29,28 +30,33 @@ export class KarakteristikaComponent implements OnInit {
   ngOnInit(): void {
 
     this.karakteristikaForm = this.formBuilder.group({
-      nazivKarakteristike:['', Validators.required],
-      vrednost:['', Validators.required]
+      NazivKarakteristike:['', Validators.required],
+      Vrednost:['', Validators.required]
     });
 
     if(this.editData){
+      this.naslov = "Izmena karakteristike"
 
-      this.karakteristikaForm.controls["nazivKarakteristike"].setValue(this.editData.nazivKarakteristike);
-      this.karakteristikaForm.controls["vrednost"].setValue(this.editData.vrednost);
+      this.karakteristikaForm.controls["NazivKarakteristike"].setValue(this.editData.NazivKarakteristike);
+      this.karakteristikaForm.controls["Vrednost"].setValue(this.editData.Vrednost);
 
-      this.karakteristika.idKarakteristike = this.editData.idKarakteristike;
-      this.karakteristika.sifraProizvoda = this.editData.sifraProizvoda;
-      this.karakteristika.nazivKarakteristike = this.editData.nazivKarakteristike;
-      this.karakteristika.vrednost = this.editData.vrednost;
+      this.karakteristika.IDKarakteristike = this.editData.IDKarakteristike;
+      this.karakteristika.SifraProizvoda = this.editData.SifraProizvoda;
+      this.karakteristika.NazivKarakteristike = this.editData.NazivKarakteristike;
+      this.karakteristika.Vrednost = this.editData.Vrednost;
     }
   }
 
   izmeniKarakteristiku(){
-    this.apiService.setVrednost(this.karakteristikaForm.value["vrednost"]);
-    this.apiService.setNaziv(this.karakteristikaForm.value["nazivKarakteristike"]);
+    this.apiService.setVrednost(this.karakteristikaForm.value["Vrednost"]);
+    this.apiService.setNaziv(this.karakteristikaForm.value["NazivKarakteristike"]);
 
-    this.dialogRef.close();
+    this.dialogRef.close('save');
 
+  }
+
+  zatvoriDialog(){
+    this.dialogRef.close('cancel');
   }
 
 }

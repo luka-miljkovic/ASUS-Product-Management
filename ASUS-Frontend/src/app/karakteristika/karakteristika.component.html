@@ -1,26 +1,23 @@
-<h1 mat-dialog-title>Izmena karakteristike</h1>
-redni broj - {{karakteristika.idKarakteristike}}
-<br>
-Sifra proizvoda - {{karakteristika.sifraProizvoda}}
+<h1 mat-dialog-title>{{naslov}}</h1>
 <div mat-dialog-content>
     <form [formGroup]="karakteristikaForm">
 
         <mat-form-field appearance="outline">
-            <mat-label>Naziv karakteristike</mat-label>
-            <input formControlName="nazivKarakteristike" matInput placeholder="Placeholder">
+            <mat-label>Naziv Karakteristike</mat-label>
+            <input formControlName="NazivKarakteristike" matInput placeholder="Placeholder">
         </mat-form-field>
         <br>
         <br>
 
         <mat-form-field appearance="outline">
             <mat-label>Vrednost</mat-label>
-            <input formControlName="vrednost" matInput type="number" placeholder="Placeholder">
+            <input formControlName="Vrednost" matInput type="number" placeholder="Placeholder">
         </mat-form-field>
     </form>
         
 </div>
 <div mat-dialog-action [align]="'end'">
-    <button mat-raised-button color="warn" mat-dialog-close>Odustani</button>
+    <button mat-raised-button color="warn" mat-dialog-close (click)="zatvoriDialog()">Odustani</button>
     <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="izmeniKarakteristiku()">Sacuvaj izmene</button>
    
 </div>

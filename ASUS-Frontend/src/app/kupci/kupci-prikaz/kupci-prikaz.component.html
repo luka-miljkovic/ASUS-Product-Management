@@ -1,4 +1,3 @@
-<button mat-raised-button color="warn" (click)="openDialog()">Dodaj kupca</button>
 
 <div class="container">
     <div style="margin-top: 10px">
@@ -11,32 +10,32 @@
             <table mat-table [dataSource]="dataSource" matSort>
           
               <!-- ID Column -->
-              <ng-container matColumnDef="pib">
+              <ng-container matColumnDef="PIB">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> PIB </th>
-                <td mat-cell *matCellDef="let row"> {{row.pib}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.PIB}} </td>
               </ng-container>
           
               <!-- Progress Column -->
-              <ng-container matColumnDef="nazivKupca">
+              <ng-container matColumnDef="NazivKupca">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Naziv kupca </th>
-                <td mat-cell *matCellDef="let row"> {{row.nazivKupca}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.NazivKupca}} </td>
               </ng-container>
           
               <!-- Name Column -->
-              <ng-container matColumnDef="ulicaBroj">
+              <ng-container matColumnDef="UlicaBroj">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Adresa </th>
-                <td mat-cell *matCellDef="let row"> {{row.ulicaBroj}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.UlicaBroj}} </td>
               </ng-container>
 
-              <ng-container matColumnDef="drzava">
+              <ng-container matColumnDef="Drzava">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Drzava </th>
-                <td mat-cell *matCellDef="let row"> {{row.drzava.nazivDrzave}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.Drzava.NazivDrzave}} </td>
               </ng-container>
           
               <!-- Fruit Column -->
-              <ng-container matColumnDef="grad">
+              <ng-container matColumnDef="Grad">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Grad </th>
-                <td mat-cell *matCellDef="let row"> {{row.grad.nazivGrada}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.Grad.NazivGrada}} </td>
               </ng-container>
 
               <ng-container matColumnDef="action">
@@ -45,7 +44,7 @@
                     <button mat-icon-button color="primary" (click)="izmeniKupca(row)">
                         <mat-icon>edit</mat-icon>
                     </button>    
-                    <button (click)="obrisiKupca(row.pib)" mat-icon-button color="warn">
+                    <button (click)="obrisiKupca(row.PIB)" mat-icon-button color="warn">
                         <mat-icon>delete</mat-icon>
                     </button> 
                 </td>
@@ -64,3 +63,4 @@
           </div>
     </div>
 </div>
+<button mat-raised-button color="warn" (click)="openDialog()">Dodaj kupca</button>

@@ -15,21 +15,30 @@ export class KupciUnosComponent implements OnInit {
 
   drzave!:Drzava[];
   test!:boolean;
-  selectedValueDrzava!:Drzava['idDrzave'];
-  selectedValueGrad!:Grad['nazivGrada'];
-  gradovi!:Grad[];
-  gradoviFront!:Grad[];
+  selectedValueDrzava!:Drzava['IDDrzave'];
+  selectedValueGrad!:Grad['NazivGrada'];
+  Gradovi!:Grad[];
+  GradoviFront!:Grad[];
   kupciForm!:FormGroup;
   kupac:Kupac = {
-    pib:0,
-    nazivKupca:"",
-    ulicaBroj:"",
-    idDrzave:0,
-    postanskiBroj:0,
-    grad: {postanskiBroj:0, idDrzave:0, nazivGrada:""},
-    drzava: {idDrzave:0, nazivDrzave:"", gradovi:this.gradovi}
+    PIB:0,
+    NazivKupca:"",
+    UlicaBroj:"",
+    IDDrzave:0,
+    PostanskiBroj:0,
+    Grad: {PostanskiBroj:0, IDDrzave:0, NazivGrada:""},
+    Drzava: {IDDrzave:0, NazivDrzave:"", Gradovi:this.Gradovi}
   };
+
   actionBtn: string = "Sacuvaj";
+  izmena:boolean = false;
+  naslov:string = "Unos novog kupca";
+
+  testDrzava:Drzava = {
+    IDDrzave:0,
+    NazivDrzave:"kjsdf",
+    Gradovi:this.Gradovi
+  }
   
 
   constructor(private apiService:ApiService, private formBuilder:FormBuilder, private dialogRef:MatDialogRef<KupciUnosComponent>, 
@@ -37,14 +46,18 @@ export class KupciUnosComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.vratiDrzave().subscribe(response =>{
+      //console.log(response);
       this.drzave = response;
+      console.log(this.drzave);
     });
+
+    //console.log(this.drzave);
     
     this.kupciForm = this.formBuilder.group({
-      pib : ['', Validators.required],
-      nazivKupca : ['', Validators.required],
-      drzava : ['', Validators.required],
-      grad : ['', Validators.required],
+      PIB : ['', Validators.required],
+      NazivKupca : ['', Validators.required],
+      Drzava : ['', Validators.required],
+      Grad : ['', Validators.required],
       adresa : ['', Validators.required]
     });
 
@@ -52,15 +65,17 @@ export class KupciUnosComponent implements OnInit {
     
     if(this.editData){
       console.log(this.editData);
+      this.izmena = true;
       this.actionBtn = "Izmeni";
-      this.selectedValueDrzava = this.editData.drzava.idDrzave;
+      this.naslov = "Izmena kupca";
+      this.selectedValueDrzava = this.editData.Drzava.IDDrzave;
       this.vratiGradove();
-      this.kupciForm.controls["pib"].setValue(this.editData.pib);
-      this.kupciForm.controls["nazivKupca"].setValue(this.editData.nazivKupca);
-      this.kupciForm.controls["adresa"].setValue(this.editData.ulicaBroj);
-      this.kupciForm.controls["drzava"].setValue(this.editData.drzava.idDrzave);
-      this.kupciForm.controls["grad"].setValue(this.editData.grad.nazivGrada);
-      this.kupciForm.controls["pib"].setValue(this.editData.pib);
+      this.kupciForm.controls["PIB"].setValue(this.editData.PIB);
+      this.kupciForm.controls["NazivKupca"].setValue(this.editData.NazivKupca);
+      this.kupciForm.controls["adresa"].setValue(this.editData.UlicaBroj);
+      this.kupciForm.controls["Drzava"].setValue(this.editData.Drzava.IDDrzave);
+      this.kupciForm.controls["Grad"].setValue(this.editData.Grad.NazivGrada);
+      this.kupciForm.controls["PIB"].setValue(this.editData.PIB);
     }
     
   }
@@ -69,9 +84,10 @@ export class KupciUnosComponent implements OnInit {
     console.log("ulazim");
     console.log(this.selectedValueDrzava);
     this.apiService.vratiGradove(this.selectedValueDrzava).subscribe(response =>{
-       this.gradovi = response;
+       this.Gradovi = response;
+       console.log(this.Gradovi);
     })
-    //this.gradovi = this.selectedValueDrzava.gradovi;
+    //this.Gradovi = this.selectedValueDrzava.Gradovi;
   }
 
   ispisi(){
@@ -80,14 +96,14 @@ export class KupciUnosComponent implements OnInit {
 
   sacuvajKupca(){
 
-    this.kupac.pib = this.kupciForm.value["pib"];
-      this.kupac.nazivKupca = this.kupciForm.value["nazivKupca"];
-      this.kupac.grad = this.gradovi.filter(grad => grad.nazivGrada === this.kupciForm.value["grad"])[0];
-      this.kupac.drzava = this.drzave.filter(drzava => drzava.idDrzave === this.kupciForm.value["drzava"])[0];
-      //this.kupac.grad.drzava.gradovi = nu;
-      this.kupac.idDrzave = this.kupac.grad.idDrzave;
-      this.kupac.postanskiBroj = this.kupac.grad.postanskiBroj;
-      this.kupac.ulicaBroj = this.kupciForm.value["adresa"];
+    this.kupac.PIB = this.kupciForm.value["PIB"];
+      this.kupac.NazivKupca = this.kupciForm.value["NazivKupca"];
+      this.kupac.Grad = this.Gradovi.filter(Grad => Grad.NazivGrada === this.kupciForm.value["Grad"])[0];
+      this.kupac.Drzava = this.drzave.filter(Drzava => Drzava.IDDrzave === this.kupciForm.value["Drzava"])[0];
+      //this.kupac.Grad.Drzava.Gradovi = nu;
+      this.kupac.IDDrzave = this.kupac.Grad.IDDrzave;
+      this.kupac.PostanskiBroj = this.kupac.Grad.PostanskiBroj;
+      this.kupac.UlicaBroj = this.kupciForm.value["adresa"];
   
       console.log(this.kupac);
 
@@ -106,7 +122,7 @@ export class KupciUnosComponent implements OnInit {
         })
       }
     }else{
-      this.apiService.izmeniKupca(this.kupac, this.kupac.pib)
+      this.apiService.izmeniKupca(this.kupac, this.kupac.PIB)
       .subscribe({
         next:(result)=>{
           alert("Kupac je uspesno izmenjen!");

@@ -142,3 +142,6 @@ C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Managem
 C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\Model.pdb
 C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\DataAccessLayer.dll
 C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\DataAccessLayer.pdb
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Luka\Documents\FPIS\Master\ASUS-Product-Management\ASUS-Product-Management\AsusAPI\AsusAPI\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

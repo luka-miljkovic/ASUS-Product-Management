@@ -1,27 +1,27 @@
-<h1 mat-dialog-title>Unos novog kupca</h1>
+<h1 mat-dialog-title>{{naslov}}</h1>
 <div mat-dialog-content>
     <form [formGroup]="kupciForm">
         <mat-form-field appearance="outline">
             <mat-label>PIB</mat-label>
-            <input formControlName="pib" matInput type="number" placeholder="Placeholder">
+            <input [readonly]="izmena" formControlName="PIB" matInput type="number" placeholder="Placeholder">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Naziv kupca</mat-label>
-            <input formControlName="nazivKupca" matInput placeholder="Placeholder">
+            <input formControlName="NazivKupca" matInput placeholder="Placeholder">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Drzava</mat-label>
-            <mat-select formControlName="drzava"  [(value)]="selectedValueDrzava">
-              <mat-option *ngFor="let drzava of drzave" [value]="drzava.idDrzave" (click)="vratiGradove()" >
-                {{drzava.nazivDrzave}}
+            <mat-select formControlName="Drzava"  [(value)]="selectedValueDrzava">
+              <mat-option *ngFor="let Drzava of drzave" [value]="Drzava.IDDrzave" (click)="vratiGradove()" >
+                {{Drzava.NazivDrzave}}
               </mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Grad</mat-label>
-            <mat-select formControlName="grad" [(value)]="selectedValueGrad">
-              <mat-option *ngFor="let grad of gradovi" [value]="grad.nazivGrada" (click)="ispisi()">
-                {{grad.nazivGrada}}
+            <mat-select formControlName="Grad" [(value)]="selectedValueGrad">
+              <mat-option *ngFor="let Grad of Gradovi" [value]="Grad.NazivGrada" (click)="ispisi()">
+                {{Grad.NazivGrada}}
               </mat-option>
             </mat-select>
         </mat-form-field>

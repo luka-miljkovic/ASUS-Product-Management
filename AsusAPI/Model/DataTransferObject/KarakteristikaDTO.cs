@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Model.DataTransferObject
 {
     public class KarakteristikaDTO
     {
-        //[Key]
+        [Key]
         public int IDKarakteristike { get; set; }
-        //[Key]
+        [Key]
         public int SifraProizvoda { get; set; }
+        [JsonIgnore]
         public ProizvodDTO Proizvod { get; set; }
         public double Vrednost { get; set; }
         public string NazivKarakteristike { get; set; }

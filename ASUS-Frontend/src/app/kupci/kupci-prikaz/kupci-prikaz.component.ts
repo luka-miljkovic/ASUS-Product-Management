@@ -17,9 +17,9 @@ import { GranularSanityChecks } from '@angular/material/core';
 })
 export class KupciPrikazComponent implements OnInit {
 
-  displayedColumns: string[] = ['pib', 'nazivKupca', 'ulicaBroj', 'drzava', 'grad', 'action'];
+  displayedColumns: string[] = ['PIB', 'NazivKupca', 'UlicaBroj', 'Drzava', 'Grad', 'action'];
   dataSource!: MatTableDataSource<any>;
-  gradovi!:Grad[];
+  Gradovi!:Grad[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -41,17 +41,20 @@ export class KupciPrikazComponent implements OnInit {
   ngOnInit(): void {
     this.vratiKupce();
     console.log("hej");
-    console.log(this.vratiDrzavu(1));
+    console.log(this.dataSource);
   }
 
   vratiKupce(){
     this.apiService.vratiKupce()
     .subscribe({
       next:(response) =>{
-        console.log(response);
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        console.log(response.length);
+        if(response.length > 0){
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+        
 
       },
       error:(err)=>{

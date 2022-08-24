@@ -32,7 +32,7 @@ namespace DataAccessLayer.Implementations
 
         public void Delete(Proizvod enthity)
         {
-            throw new NotImplementedException();
+            context.Proizvodi.Remove(enthity);
         }
 
         public Task<Proizvod> FindById(int id)
@@ -59,7 +59,51 @@ namespace DataAccessLayer.Implementations
 
         public void Update(Proizvod enthity)
         {
-            throw new NotImplementedException();
+            AsusContext context1 = new AsusContext();
+            //context.Set<Karakteristika>().AsNoTracking();
+            var karakteristike = context1.Karakteristike;  
+            //var karakteristike1 = context.Karakteristike;
+
+            foreach (var k in karakteristike)
+            {
+                bool delete = true;
+                foreach (Karakteristika karakteristika in enthity.Karakteristike)
+                {
+                    if (k.SifraProizvoda == karakteristika.SifraProizvoda && k.IDKarakteristike == karakteristika.IDKarakteristike)
+                    {
+                        delete = false;
+                    }
+                }
+                if (delete)
+                {
+                    context.Karakteristike.Remove(k);
+                    enthity.Karakteristike.Remove(k);
+                }
+
+            }
+            context.SaveChanges();
+
+            foreach (var k in enthity.Karakteristike)
+            {
+                if (!context.Karakteristike.Contains(k))
+                {
+                    k.SifraProizvoda = enthity.SifraProizvoda;
+                    context.Karakteristike.Add(k);
+                    context.SaveChanges();
+                }
+            }
+
+            try
+            {
+                //context.Entry(enthity).State = EntityState.Detached;
+                context.Proizvodi.Update(enthity);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

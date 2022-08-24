@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Karakteristika } from 'src/app/_model/karakteristika';
 import { Proizvod } from 'src/app/_model/proizvod';
 import { ApiService } from 'src/app/_services/api.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { KarakteristikaComponent } from 'src/app/karakteristika/karakteristika.component';
 
 @Component({
@@ -15,90 +15,135 @@ import { KarakteristikaComponent } from 'src/app/karakteristika/karakteristika.c
 export class ProizvodiUnosComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private apiService:ApiService, 
-    private dialog : MatDialog) { }
+              private dialog : MatDialog,
+              @Inject(MAT_DIALOG_DATA) public editData:any,
+              private dialogRef:MatDialogRef<ProizvodiUnosComponent>) { }
 
   proizvodiForm !: FormGroup;
-  karakteristikeForm !: FormGroup;
-  activateKarakteristikaComponent:Boolean = false;
+  KarakteristikeForm !: FormGroup;
+  actionBtn:string = "Sacuvaj"
 
-  displayedColumns:string[] = ['redniBroj', 'sifraProizvoda', 'nazivKarakteristike', 'vrednost', 'action'];
+  displayedColumns:string[] = ['redniBroj', 'SifraProizvoda', 'NazivKarakteristike', 'Vrednost', 'action'];
   dataSource!:MatTableDataSource<Karakteristika>
 
-  karakteristike : Karakteristika[] = [];
+  Karakteristike : Karakteristika[] = [];
   karakteristika:Karakteristika = {
-    idKarakteristike:0,
-    sifraProizvoda:0,
-    vrednost:0,
-    nazivKarakteristike:""
+    IDKarakteristike:0,
+    SifraProizvoda:0,
+    Vrednost:0,
+    NazivKarakteristike:""
 
   };
 
   proizvod:Proizvod = {
-    sifraProizvoda:0,
-    nazivModela:"",
-    karakteristike : this.karakteristike
+    SifraProizvoda:0,
+    NazivModela:"",
+    Karakteristike : this.Karakteristike
   };
+
+  izmena:boolean = false;
 
   brojac:number = 1;
 
   ngOnInit(): void {
 
     this.proizvodiForm = this.formBuilder.group({
-      sifraProizvoda:['', Validators.required],
-      nazivModela:['', Validators.required],
-      nazivKarakteristike:['', Validators.required],
-      vrednost:['', Validators.required]
+      SifraProizvoda:['', Validators.required],
+      NazivModela:['', Validators.required]
     });
 
-    //this.dataSource = new MatTableDataSource(this.karakteristike);
+    if(this.editData){
+
+      this.izmena = true;
+
+      this.actionBtn = "Izmeni";
+
+      this.proizvodiForm.controls["SifraProizvoda"].setValue(this.editData.SifraProizvoda);
+      this.proizvodiForm.controls["NazivModela"].setValue(this.editData.NazivModela);
+      this.Karakteristike = this.editData.Karakteristike;
+      this.dataSource = new MatTableDataSource(this.Karakteristike);
+    }
+
 
     
   }
 
   dodajKarakteristiku(){
-    console.log("hej usao sam ovde");
-    let karakteristika : Karakteristika = {
-      idKarakteristike:this.brojac,
-      sifraProizvoda: this.proizvodiForm.value['sifraProizvoda'],
-      nazivKarakteristike: this.proizvodiForm.value['nazivKarakteristike'],
-      vrednost : this.proizvodiForm.value['vrednost']
+    this.brojac = this.Karakteristike.length + 1;
+
+    this.dialog.open(KarakteristikaComponent,{
+      width:'30%',
+    }).afterClosed().subscribe(res =>{
+      if(res === 'save'){
+        console.log("hej usao sam ovde");
+      let karakteristika : Karakteristika = {
+      IDKarakteristike:this.brojac,
+      SifraProizvoda: this.proizvodiForm.value['SifraProizvoda'],
+      NazivKarakteristike: this.apiService.getNazivKarakteristike(),
+      Vrednost : this.apiService.getVrednost()
     }
 
-    this.karakteristike.push(karakteristika);
-    this.brojac++;
-    //console.log(this.brojac);
-    this.dataSource = new MatTableDataSource(this.karakteristike);
+      this.Karakteristike.push(karakteristika);
+      this.brojac++;
+      //console.log(this.brojac);
+      this.dataSource = new MatTableDataSource(this.Karakteristike);
+
+      }
+      
+
+    });
+
+    
 
   }
 
   sacuvajProizvod(){
-    this.proizvod.sifraProizvoda = this.proizvodiForm.value['sifraProizvoda'];
-    this.proizvod.nazivModela = this.proizvodiForm.value['nazivModela'];
-    this.proizvod.karakteristike = this.karakteristike;
+    this.proizvod.SifraProizvoda = this.proizvodiForm.value['SifraProizvoda'];
+    this.proizvod.NazivModela = this.proizvodiForm.value['NazivModela'];
+    this.proizvod.Karakteristike = this.Karakteristike;
 
-    console.log(this.proizvod);
+    //console.log(this.proizvod);
 
-    this.apiService.unesiProizvod(this.proizvod)
-    .subscribe({
-      next:(response) =>{
-        alert('Proizvod je uspesno sacuvan!');
-        this.proizvodiForm.reset();
-      },
-      error:()=>{
-        alert('Greska prilikom cuvanja proizvoda');
+    if(!this.editData){
+      this.apiService.unesiProizvod(this.proizvod)
+      .subscribe({
+        next:(response) =>{
+          alert('Proizvod je uspesno sacuvan!');
+          this.proizvodiForm.reset();
+          this.Karakteristike = [];
+          this.dataSource = new MatTableDataSource(this.Karakteristike);
+        },
+        error:()=>{
+          alert('Greska prilikom cuvanja proizvoda');
       }
-    })
+      });
+    }else{
+      console.log(this.proizvod);
+      this.apiService.izmeniProizvod(this.proizvod)
+      .subscribe({
+        next:(response) =>{
+          alert('Proizvod je uspesno izmenjen!');
+          this.proizvodiForm.reset();
+          this.dialogRef.close('update');
+        },
+        error:()=>{
+          alert('Greska prilikom izmene proizvoda');
+      }
+    });
+    }
+
+    
   }
 
   obrisiKarakteristiku(element:any){
     console.log(element);
     
-    for(var i = 0; i<this.karakteristike.length; i++){
-      if(this.karakteristike[i].idKarakteristike === element.idKarakteristike && this.karakteristike[i].sifraProizvoda === element.sifraProizvoda){
+    for(var i = 0; i<this.Karakteristike.length; i++){
+      if(this.Karakteristike[i].IDKarakteristike === element.IDKarakteristike && this.Karakteristike[i].SifraProizvoda === element.SifraProizvoda){
         console.log('usao sam');
         this.azurirajListu(i);
-        this.karakteristike.splice(i,1);
-        this.dataSource = new MatTableDataSource(this.karakteristike);
+        this.Karakteristike.splice(i,1);
+        this.dataSource = new MatTableDataSource(this.Karakteristike);
         return;
       }
     }
@@ -106,31 +151,32 @@ export class ProizvodiUnosComponent implements OnInit {
   }
 
   azurirajListu(redniBroj:number){
-    for(var i = redniBroj + 1; i < this.karakteristike.length; i++){
-      this.karakteristike[i].idKarakteristike--;
+    for(var i = redniBroj + 1; i < this.Karakteristike.length; i++){
+      this.Karakteristike[i].IDKarakteristike--;
     }
     this.brojac--;
   }
 
   izmeniKarakteristiku(element:any){
-      this.apiService.setVrednost(element.vrednost);
-      this.apiService.setNaziv(element.nazivKarakteristike);
+      this.apiService.setVrednost(element.Vrednost);
+      this.apiService.setNaziv(element.NazivKarakteristike);
     this.dialog.open(KarakteristikaComponent, {
       width:'30%',
       data:element
     }).afterClosed().subscribe(res =>{
+      if(res === 'save'){
+        console.log(this.apiService.getNazivKarakteristike());
+        console.log(this.apiService.getVrednost());
 
-      console.log(this.apiService.getNazivKarakteristike());
-    console.log(this.apiService.getVrednost());
-
-    for(var i = 0; i<this.karakteristike.length; i++){
-      if(this.karakteristike[i].idKarakteristike === element.idKarakteristike && this.karakteristike[i].sifraProizvoda === element.sifraProizvoda){
-        this.karakteristike[i].nazivKarakteristike = this.apiService.getNazivKarakteristike();
-        this.karakteristike[i].vrednost = this.apiService.getVrednost();
-        return;
+        for(var i = 0; i<this.Karakteristike.length; i++){
+          if(this.Karakteristike[i].IDKarakteristike === element.IDKarakteristike && this.Karakteristike[i].SifraProizvoda === element.SifraProizvoda){
+          this.Karakteristike[i].NazivKarakteristike = this.apiService.getNazivKarakteristike();
+          this.Karakteristike[i].Vrednost = this.apiService.getVrednost();
+          return;
+        }
       }
-    }
 
+    }
     });
 
     

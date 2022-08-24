@@ -2,7 +2,7 @@
 
 namespace Model.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,8 +68,7 @@ namespace Model.Migrations
                 name: "Karakteristika",
                 columns: table => new
                 {
-                    IDKarakteristike = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IDKarakteristike = table.Column<int>(type: "int", nullable: false),
                     SifraProizvoda = table.Column<int>(type: "int", nullable: false),
                     Vrednost = table.Column<double>(type: "float", nullable: false),
                     NazivKarakteristike = table.Column<string>(type: "nvarchar(max)", nullable: true)

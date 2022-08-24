@@ -16,6 +16,6 @@ namespace Model.DataTransferObject
         public DrzavaDTO Drzava { get; set; }
         public string NazivGrada { get; set; }
 
-        public List<KupacDTO> Kupci = new List<KupacDTO>();
+        //public List<KupacDTO> Kupci = new List<KupacDTO>();
     }
 }

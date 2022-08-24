@@ -18,6 +18,6 @@ namespace Model.Domain
         public Drzava Drzava { get; set; }
         public string NazivGrada { get; set; }
 
-        public List<Kupac> Kupci = new List<Kupac>();
+        //public List<Kupac> Kupci = new List<Kupac>();
     }
 }

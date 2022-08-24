@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProizvodiUnosComponent } from './proizvodi-unos/proizvodi-unos.component';
+
+
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import { ApiService } from '../_services/api.service';
 
 @Component({
   selector: 'app-proizvodi',
@@ -9,9 +15,16 @@ import { ProizvodiUnosComponent } from './proizvodi-unos/proizvodi-unos.componen
 })
 export class ProizvodiComponent implements OnInit {
 
-  constructor(private dialog:MatDialog) { }
+  displayedColumns: string[] = ['SifraProizvoda', 'NazivModela','action'];
+  dataSource!: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private dialog:MatDialog, private apiService:ApiService) { }
 
   ngOnInit(): void {
+    this.vratiProizvode();
   }
 
   openDialog(){
@@ -19,6 +32,65 @@ export class ProizvodiComponent implements OnInit {
       width:'100%'
     });
 
+  }
+
+  vratiProizvode(){
+
+    this.apiService.vratiProizvode()
+    .subscribe({
+      next:(response) =>{
+        if(response.length > 0){
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+        
+
+      },
+      error:(err)=>{
+        alert("Greska prilikom ucitavanja!");
+      }
+    })
+
+  }
+
+  izmeniProizvod(row:any){
+    console.log(row);
+    this.dialog.open(ProizvodiUnosComponent, {
+      width:'70%',
+      data:row
+    }).afterClosed().subscribe(res =>{
+      if(res === 'update'){
+        this.vratiProizvode();
+      }
+    })
+
+  }
+
+  obrisiProizvod(id:number){
+    console.log(id);
+    this.apiService.obrisiProizvod(id)
+    .subscribe({
+      next:(resp)=>{
+        alert("Proizvod je uspesno obrisan!");
+        this.vratiProizvode();
+      },
+      error:()=>{
+        alert("Greska prilikom brisanja proizvoda");
+      }
+    })
+
+  }
+
+
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
 

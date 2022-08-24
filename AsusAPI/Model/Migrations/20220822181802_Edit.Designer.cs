@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Model;
 
 namespace Model.Migrations
 {
     [DbContext(typeof(AsusContext))]
-    partial class AsusContextModelSnapshot : ModelSnapshot
+    [Migration("20220822181802_Edit")]
+    partial class Edit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,7 +178,7 @@ namespace Model.Migrations
             modelBuilder.Entity("Model.Domain.Kupac", b =>
                 {
                     b.HasOne("Model.Domain.Grad", "Grad")
-                        .WithMany()
+                        .WithMany("Kupci")
                         .HasForeignKey("PostanskiBroj", "IDDrzave")
                         .HasConstraintName("FK_Kupac_Grad")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -199,6 +201,11 @@ namespace Model.Migrations
             modelBuilder.Entity("Model.Domain.Drzava", b =>
                 {
                     b.Navigation("Gradovi");
+                });
+
+            modelBuilder.Entity("Model.Domain.Grad", b =>
+                {
+                    b.Navigation("Kupci");
                 });
 
             modelBuilder.Entity("Model.Domain.Proizvod", b =>
