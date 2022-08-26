@@ -9,11 +9,11 @@ namespace Model.DataTransferObject
 {
     public class OdgovornoLiceDTO
     {
-        [Key]
-        public int SifraRadnika { get; set; }
+        //[Key]
+        public int OdgovornoLiceId { get; set; }
         public string ImePrezime { get; set; }
         public string Email { get; set; }
-        public TrzisteDTO Trziste { get; set; }
-        public int SifraTrzista { get; set; }
+        //public TrzisteDTO Trziste { get; set; }
+        //public int SifraTrzista { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace AsusAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutOdgovornoLice(int id, OdgovornoLice odgovornoLice)
         {
-            if (id != odgovornoLice.SifraRadnika)
+            if (id != odgovornoLice.OdgovornoLiceId)
             {
                 return BadRequest();
             }
@@ -81,7 +81,7 @@ namespace AsusAPI.Controllers
             _context.OdgovornaLica.Add(odgovornoLice);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetOdgovornoLice", new { id = odgovornoLice.SifraRadnika }, odgovornoLice);
+            return CreatedAtAction("GetOdgovornoLice", new { id = odgovornoLice.OdgovornoLiceId }, odgovornoLice);
         }
 
         // DELETE: api/OdgovornoLice/5
@@ -102,7 +102,7 @@ namespace AsusAPI.Controllers
 
         private bool OdgovornoLiceExists(int id)
         {
-            return _context.OdgovornaLica.Any(e => e.SifraRadnika == id);
+            return _context.OdgovornaLica.Any(e => e.OdgovornoLiceId == id);
         }
     }
 }

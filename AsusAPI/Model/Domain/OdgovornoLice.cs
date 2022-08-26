@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,15 +9,14 @@ using System.Threading.Tasks;
 
 namespace Model.Domain
 {
-    [Table("OdgovornoLice")]
-    public class OdgovornoLice
+    public class OdgovornoLice : IdentityUser<int>
     {
-        [Key]
-        public int SifraRadnika { get; set; }
+        //[Key]
+        public int OdgovornoLiceId { get; set; }
         public string ImePrezime { get; set; }
         public string Email { get; set; }
         
-        public Trziste Trziste { get; set; }
-        public int SifraTrzista { get; set; }
+        //public Trziste Trziste { get; set; }
+        //public int SifraTrzista { get; set; }
     }
 }
