@@ -1,18 +1,18 @@
-
+<h1 mat-dialog-title>{{naslov}}</h1>
 
 <div mat-dialog-content>
     <form [formGroup]="proizvodiForm">
         <mat-form-field appearance="outline">
             <mat-label>Sifra proizvoda</mat-label>
-            <input [readonly]="izmena" formControlName="SifraProizvoda" matInput type="number" placeholder="Placeholder">
+            <input [readonly]="izmena" formControlName="SifraProizvoda" matInput type="number" (change)="proveri()" placeholder="Unesi sifru proizvoda">
         </mat-form-field>
         <br>
         <mat-form-field appearance="outline">
             <mat-label>Naziv modela</mat-label>
-            <input  formControlName="NazivModela" matInput placeholder="Placeholder">
+            <input  formControlName="NazivModela" matInput placeholder="Unesi naziv modela">
         </mat-form-field>
         <br>
-        <button mat-raised-button color="primary" (click)="dodajKarakteristiku()">Dodaj karakteristiku</button>
+        <button [disabled]="!unosKarakteristike" mat-raised-button color="primary" (click)="dodajKarakteristiku()" >Dodaj karakteristiku</button>
         <br>
     </form>
 </div>
@@ -59,7 +59,12 @@
 
 <br>
 
-<button mat-raised-button color="primary" (click)="sacuvajProizvod()">{{actionBtn}}</button>
+<div mat-dialog-action [align]="'center'">
+  <button mat-raised-button color="warn" mat-dialog-close>Odustani</button>
+  <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="sacuvajProizvod()">{{actionBtn}}</button>
+</div>
 
+<!-- <button mat-raised-button color="primary" (click)="sacuvajProizvod()">{{actionBtn}}</button>
+ -->
 
 

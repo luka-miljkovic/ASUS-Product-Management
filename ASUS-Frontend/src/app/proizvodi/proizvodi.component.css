@@ -1,5 +1,5 @@
 table {
-    width: 50%;
+    width: 100%;
   }
   
   .mat-form-field {
@@ -10,4 +10,10 @@ table {
   .container{
       max-width: 1200px;
       margin: 0 auto;
+  }
+
+  .mat-elevation-z8{
+    width: 60%;
+    align-items: center;
+    margin: 5% 5% 5% 20%;
   }

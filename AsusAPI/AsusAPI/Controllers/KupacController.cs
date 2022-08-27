@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,7 @@ namespace AsusAPI.Controllers
         }
 
         // GET: api/Kupac
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public async Task<ActionResult<List<KupacDTO>>> GetKupci()
         {
@@ -66,6 +69,7 @@ namespace AsusAPI.Controllers
         // PUT: api/Kupac/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void PutKupac([FromBody] KupacDTO kupacDTO)
         {
             Kupac k = new Kupac
@@ -83,6 +87,7 @@ namespace AsusAPI.Controllers
         // POST: api/Kupac
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void PostKupac(KupacDTO kupac)
         {
             Kupac k = new Kupac
@@ -99,6 +104,7 @@ namespace AsusAPI.Controllers
 
         // DELETE: api/Kupac/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void DeleteKupac(int id)
         {
             unitOfWork.KupacRepository.Delete(new Kupac { PIB = id });

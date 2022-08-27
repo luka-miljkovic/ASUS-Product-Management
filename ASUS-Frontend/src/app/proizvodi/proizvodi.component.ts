@@ -30,6 +30,10 @@ export class ProizvodiComponent implements OnInit {
   openDialog(){
     this.dialog.open(ProizvodiUnosComponent, {
       width:'100%'
+    }).afterClosed().subscribe(val =>{
+      if(val === 'save'){
+        this.vratiProizvode();
+      }
     });
 
   }

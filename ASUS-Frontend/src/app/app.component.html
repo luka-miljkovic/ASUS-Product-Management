@@ -1,17 +1,4 @@
-<mat-toolbar color="primary">
-    <mat-menu #appMenu="matMenu">
-        <button mat-menu-item Button label="KupciScreen"
-        (click)="KupciScreen=true; ProizvodiScreen=false;">Kupci</button>
-        <button mat-menu-item Button label="ProizvodiScreen" 
-        (click)="ProizvodiScreen=true; KupciScreen=false;">Proizvod</button>
-    </mat-menu>
-    <button mat-flat-button [matMenuTriggerFor]="appMenu">Meni</button>
-    <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button> -->
-    <span>ASUS Product Management</span>
-    <span class="example-spacer"></span>
-  </mat-toolbar>
-
-  <app-kupci *ngIf="KupciScreen"></app-kupci>
-  <app-proizvodi *ngIf="ProizvodiScreen"></app-proizvodi>
+<div class="wrapper">
+  <app-nav></app-nav>
+  <router-outlet></router-outlet>
+</div>

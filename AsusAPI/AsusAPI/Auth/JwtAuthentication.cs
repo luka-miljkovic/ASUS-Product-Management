@@ -23,7 +23,7 @@ namespace AsusAPI.Auth
         private const string KEY = "OvoJeNekiStringZaAutentikaciju";
         private readonly UserManager<OdgovornoLice> manager;
 
-        public async Task<string> AuthenticateAsync(string username, string password)
+        public async Task<Object> AuthenticateAsync(string username, string password)
         {
             var user = await manager.FindByNameAsync(username);
 
@@ -57,7 +57,12 @@ namespace AsusAPI.Auth
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return tokenHandler.WriteToken(token);
+                var tokenValue = tokenHandler.WriteToken(token);
+                var response = new
+                {
+                    token = tokenValue
+                };
+                return response;
             }
 
             return null;

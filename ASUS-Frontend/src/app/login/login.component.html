@@ -1,0 +1,16 @@
+<!-- <div class="position-absolute top-50 start-50 translate-middle">
+    <h1>Dobrodosli u VIP mobile!</h1>
+</div> -->
+<form [formGroup]="LoginForm">
+    <mat-form-field appearance="outline">
+        <mat-label>Korisničko ime</mat-label>
+        <input formControlName="username" matInput type="string" placeholder="">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Lozinka</mat-label>
+        <input formControlName="password" type="password" matInput type="string" placeholder="">
+    </mat-form-field>
+    <div class="example-button-row">
+        <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="authenticate()">Prijavi se</button>
+    </div>
+</form>

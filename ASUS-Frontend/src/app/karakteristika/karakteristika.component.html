@@ -4,20 +4,19 @@
 
         <mat-form-field appearance="outline">
             <mat-label>Naziv Karakteristike</mat-label>
-            <input formControlName="NazivKarakteristike" matInput placeholder="Placeholder">
+            <input formControlName="NazivKarakteristike" matInput placeholder="Unesi naziv karakteristike">
         </mat-form-field>
         <br>
         <br>
 
         <mat-form-field appearance="outline">
             <mat-label>Vrednost</mat-label>
-            <input formControlName="Vrednost" matInput type="number" placeholder="Placeholder">
+            <input formControlName="Vrednost" matInput type="number" placeholder="Unesi vrednost karakteristike">
         </mat-form-field>
     </form>
         
 </div>
-<div mat-dialog-action [align]="'end'">
+<div mat-dialog-action [align]="'center'">
     <button mat-raised-button color="warn" mat-dialog-close (click)="zatvoriDialog()">Odustani</button>
     <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="izmeniKarakteristiku()">Sacuvaj izmene</button>
-   
 </div>

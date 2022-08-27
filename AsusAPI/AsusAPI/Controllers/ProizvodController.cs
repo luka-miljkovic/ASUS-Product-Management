@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataAccessLayer.UnitOfWork;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,7 @@ namespace AsusAPI.Controllers
 
         // GET: api/Proizvod
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<ProizvodDTO>>> GetProizvodi()
         {
             var proizvodi = await unitOfWork.ProizvodRepository.GetAll();
@@ -55,6 +58,7 @@ namespace AsusAPI.Controllers
         // PUT: api/Proizvod/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void PutProizvod(ProizvodDTO proizvod)
         {
             Proizvod p = mapper.Map<Proizvod>(proizvod);
@@ -66,6 +70,7 @@ namespace AsusAPI.Controllers
         // POST: api/Proizvod
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void PostProizvod(ProizvodDTO proizvod)
         {
             Proizvod p = mapper.Map<Proizvod>(proizvod);
@@ -77,6 +82,7 @@ namespace AsusAPI.Controllers
 
         // DELETE: api/Proizvod/5
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void DeleteProizvod(int id)
         {
             unitOfWork.ProizvodRepository.Delete(new Proizvod { SifraProizvoda = id });

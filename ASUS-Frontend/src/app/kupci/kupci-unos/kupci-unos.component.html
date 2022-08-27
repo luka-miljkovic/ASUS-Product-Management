@@ -3,11 +3,11 @@
     <form [formGroup]="kupciForm">
         <mat-form-field appearance="outline">
             <mat-label>PIB</mat-label>
-            <input [readonly]="izmena" formControlName="PIB" matInput type="number" placeholder="Placeholder">
+            <input [readonly]="izmena" formControlName="PIB" matInput type="number" placeholder="Unesi PIB">
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Naziv kupca</mat-label>
-            <input formControlName="NazivKupca" matInput placeholder="Placeholder">
+            <input formControlName="NazivKupca" matInput placeholder="Unesi naziv kupca">
         </mat-form-field>
         <mat-form-field appearance="fill">
             <mat-label>Drzava</mat-label>
@@ -27,11 +27,12 @@
         </mat-form-field>
         <mat-form-field appearance="outline">
             <mat-label>Adresa</mat-label>
-            <input formControlName="adresa" matInput placeholder="Placeholder">
+            <input formControlName="adresa" matInput placeholder="Unesi adresu">
         </mat-form-field>
     </form>
 </div>
-<div mat-dialog-action [align]="'end'">
+<br>
+<div mat-dialog-action [align]="'center'">
     <button mat-raised-button color="warn" mat-dialog-close>Odustani</button>
     <button style="margin-left: 8px;" mat-raised-button color="primary" (click)="sacuvajKupca()">{{actionBtn}}</button>
    

@@ -1,13 +1,12 @@
-<button mat-raised-button color="warn" (click)="openDialog()">Dodaj proizvod</button>
 
 <div class="container">
     <div style="margin-top: 10px">
         <mat-form-field appearance="standard">
             <mat-label>Filter</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+            <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
           </mat-form-field>
           
-          <div class="mat-elevation-z8">
+          <div class="mat-elevation-z8" [align]="'center'">
             <table mat-table [dataSource]="dataSource" matSort>
           
               <!-- ID Column -->
@@ -46,4 +45,7 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
           </div>
     </div>
+</div>
+<div mat-dialog-action [align]="'center'">
+  <button mat-raised-button color="warn" (click)="openDialog()">Dodaj proizvod</button>
 </div>

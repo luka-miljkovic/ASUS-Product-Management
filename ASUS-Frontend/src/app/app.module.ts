@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -28,6 +28,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import { ProizvodiUnosComponent } from './proizvodi/proizvodi-unos/proizvodi-unos.component';
 import { KarakteristikaComponent } from './karakteristika/karakteristika.component';
+import { LoginComponent } from './login/login.component';
+import { TokenInterceptorService } from './token-inspector/token-inspector.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { KarakteristikaComponent } from './karakteristika/karakteristika.compone
     NavComponent,
     ProizvodiComponent,
     ProizvodiUnosComponent,
-    KarakteristikaComponent
+    KarakteristikaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -63,8 +66,13 @@ import { KarakteristikaComponent } from './karakteristika/karakteristika.compone
     MatSortModule
   ],
   providers: [
-    ApiService
+    ApiService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent,]
 })
 export class AppModule { }

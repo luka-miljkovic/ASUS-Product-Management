@@ -22,6 +22,7 @@ export class ProizvodiUnosComponent implements OnInit {
   proizvodiForm !: FormGroup;
   KarakteristikeForm !: FormGroup;
   actionBtn:string = "Sacuvaj"
+  unosKarakteristike:boolean = false;
 
   displayedColumns:string[] = ['redniBroj', 'SifraProizvoda', 'NazivKarakteristike', 'Vrednost', 'action'];
   dataSource!:MatTableDataSource<Karakteristika>
@@ -42,6 +43,7 @@ export class ProizvodiUnosComponent implements OnInit {
   };
 
   izmena:boolean = false;
+  naslov:string = "Unos novog proizvoda";
 
   brojac:number = 1;
 
@@ -52,11 +54,13 @@ export class ProizvodiUnosComponent implements OnInit {
       NazivModela:['', Validators.required]
     });
 
+    
+
     if(this.editData){
-
+      this.naslov = "Izmena proizvoda";
       this.izmena = true;
-
       this.actionBtn = "Izmeni";
+      this.unosKarakteristike = true;
 
       this.proizvodiForm.controls["SifraProizvoda"].setValue(this.editData.SifraProizvoda);
       this.proizvodiForm.controls["NazivModela"].setValue(this.editData.NazivModela);
@@ -68,7 +72,21 @@ export class ProizvodiUnosComponent implements OnInit {
     
   }
 
+  proveri(){
+    console.log("usao sam");
+
+    if(this.proizvodiForm.value["SifraProizvoda"] > 0){
+      console.log("usao sam u if");
+      this.unosKarakteristike = true;
+    }
+
+    console.log(this.unosKarakteristike)
+
+  }
+
   dodajKarakteristiku(){
+
+    
     this.brojac = this.Karakteristike.length + 1;
 
     this.dialog.open(KarakteristikaComponent,{
@@ -112,6 +130,7 @@ export class ProizvodiUnosComponent implements OnInit {
           this.proizvodiForm.reset();
           this.Karakteristike = [];
           this.dataSource = new MatTableDataSource(this.Karakteristike);
+          this.dialogRef.close('save');
         },
         error:()=>{
           alert('Greska prilikom cuvanja proizvoda');

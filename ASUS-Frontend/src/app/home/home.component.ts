@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private kupacService:ApiService) { }
 
   ngOnInit(): void {
-    this.kupacService.vratiKupce().subscribe((response) =>{
+    /*this.kupacService.vratiKupce().subscribe((response) =>{
       console.log(response);
       this.kupci = response;
     }, error => {
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
       this.drzave = response;
     }, error => {
       console.log("greska!");
-    });
+    });*/
   }
 
 }
