@@ -72,6 +72,7 @@ namespace AsusAPI.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void PutKupac([FromBody] KupacDTO kupacDTO)
         {
+
             Kupac k = new Kupac
             {
                 PIB = kupacDTO.PIB,
@@ -88,8 +89,16 @@ namespace AsusAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public void PostKupac(KupacDTO kupac)
+        public async Task<IActionResult> PostKupac(KupacDTO kupac)
         {
+            var Kupci = await unitOfWork.KupacRepository.GetAll();
+            foreach (var item in Kupci)
+            {
+                if(item.PIB == kupac.PIB)
+                {
+                    return BadRequest($"Kupac sa PIB-om {kupac.PIB} vec postoji u sistemu");
+                }
+            }
             Kupac k = new Kupac
             {
                 PIB = kupac.PIB,
@@ -100,6 +109,7 @@ namespace AsusAPI.Controllers
 
             unitOfWork.KupacRepository.Add(k);
             unitOfWork.Commit();
+            return Ok();
         }
 
         // DELETE: api/Kupac/5

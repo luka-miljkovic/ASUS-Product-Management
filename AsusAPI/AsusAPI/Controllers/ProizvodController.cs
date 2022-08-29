@@ -71,12 +71,28 @@ namespace AsusAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public void PostProizvod(ProizvodDTO proizvod)
+        public async Task<IActionResult> PostProizvod(ProizvodDTO proizvod)
         {
+            var proizvodi = await unitOfWork.ProizvodRepository.GetAll();
+            foreach (var item in proizvodi)
+            {
+                if (item.SifraProizvoda == proizvod.SifraProizvoda)
+                {
+                    return BadRequest($"Proizvod sa sifrom {proizvod.SifraProizvoda} vec postoji u sistemu");
+                }
+            }
             Proizvod p = mapper.Map<Proizvod>(proizvod);
 
-            unitOfWork.ProizvodRepository.Add(p);
-            unitOfWork.Commit();
+            try
+            {
+                unitOfWork.ProizvodRepository.Add(p);
+                unitOfWork.Commit();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
         }
 

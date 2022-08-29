@@ -96,7 +96,24 @@ export class KupciUnosComponent implements OnInit {
 
   sacuvajKupca(){
 
-    this.kupac.PIB = this.kupciForm.value["PIB"];
+    if(this.kupciForm.value["PIB"] === '' || this.kupciForm.value["PIB"] == null 
+        || this.kupciForm.value["NazivKupca"] ==='' 
+        || this.kupciForm.value["adresa"] === ''
+        || this.kupciForm.value["Drzava"] === ''
+        || this.kupciForm.value["Grad"] === ''){
+          alert("Morate popuniti sva obavezna polja!")
+          return;
+        }
+    
+        if(this.kupciForm.value["PIB"] <= 0){
+          alert("PIB mora biti pozitivan!");
+          return;
+         }
+
+        console.log(this.kupciForm.value["Grad"] === '');
+        console.log(this.kupciForm.value["Drzava"] === '');
+
+      this.kupac.PIB = this.kupciForm.value["PIB"];
       this.kupac.NazivKupca = this.kupciForm.value["NazivKupca"];
       this.kupac.Grad = this.Gradovi.filter(Grad => Grad.NazivGrada === this.kupciForm.value["Grad"])[0];
       this.kupac.Drzava = this.drzave.filter(Drzava => Drzava.IDDrzave === this.kupciForm.value["Drzava"])[0];
@@ -116,8 +133,9 @@ export class KupciUnosComponent implements OnInit {
             this.kupciForm.reset();
             this.dialogRef.close('save');
           },
-          error:()=>{
-            alert("Greska prilikom unosa kupca!");
+          error:(err)=>{
+            console.log(err.error);
+            alert(err.error);
           }
         })
       }
@@ -129,7 +147,8 @@ export class KupciUnosComponent implements OnInit {
           this.kupciForm.reset();
           this.dialogRef.close('update');
         },
-        error:()=>{
+        error:(err)=>{
+          
           alert("Greska prilikom izmene kupca!");
         }
       })

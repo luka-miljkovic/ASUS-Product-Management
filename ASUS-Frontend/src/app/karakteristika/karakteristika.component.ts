@@ -48,6 +48,15 @@ export class KarakteristikaComponent implements OnInit {
   }
 
   izmeniKarakteristiku(){
+    if(this.karakteristikaForm.value["Vrednost"] === '' || this.karakteristikaForm.value["Vrednost"] === null
+     || this.karakteristikaForm.value["NazivKarakteristike"] === ''){
+      alert("Morate popuniti sva obavezna polja!");
+      return;
+     }
+     if(this.karakteristikaForm.value["Vrednost"] < 0){
+      alert("Vrednost karakteristike mora biti pozitivna!");
+      return;
+     }
     this.apiService.setVrednost(this.karakteristikaForm.value["Vrednost"]);
     this.apiService.setNaziv(this.karakteristikaForm.value["NazivKarakteristike"]);
 

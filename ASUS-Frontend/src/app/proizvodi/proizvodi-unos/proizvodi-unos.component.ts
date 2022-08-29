@@ -86,6 +86,10 @@ export class ProizvodiUnosComponent implements OnInit {
 
   dodajKarakteristiku(){
 
+    if(this.proizvodiForm.value['SifraProizvoda'] === '' ||this.proizvodiForm.value['SifraProizvoda'] === null){
+      alert("Morate uneti sifru proizvoda!");
+      return;
+    }
     
     this.brojac = this.Karakteristike.length + 1;
 
@@ -116,6 +120,19 @@ export class ProizvodiUnosComponent implements OnInit {
   }
 
   sacuvajProizvod(){
+    console.log(this.proizvodiForm.value['SifraProizvoda']);
+    console.log(this.proizvodiForm.value['NazivModela']);
+
+    if(this.proizvodiForm.value['SifraProizvoda'] === '' ||this.proizvodiForm.value['SifraProizvoda'] === null || this.proizvodiForm.value['NazivModela'] === ''){
+      alert("Morate popuniti sva obavezna polja!");
+      return;
+    }
+
+    if(this.proizvodiForm.value['SifraProizvoda'] <= 0){
+      alert("Sifra proizvoda mora biti pozitivna!");
+      return;
+     }
+
     this.proizvod.SifraProizvoda = this.proizvodiForm.value['SifraProizvoda'];
     this.proizvod.NazivModela = this.proizvodiForm.value['NazivModela'];
     this.proizvod.Karakteristike = this.Karakteristike;
@@ -132,12 +149,13 @@ export class ProizvodiUnosComponent implements OnInit {
           this.dataSource = new MatTableDataSource(this.Karakteristike);
           this.dialogRef.close('save');
         },
-        error:()=>{
-          alert('Greska prilikom cuvanja proizvoda');
+        error:(err)=>{
+          alert(err.error);
       }
       });
     }else{
       console.log(this.proizvod);
+    
       this.apiService.izmeniProizvod(this.proizvod)
       .subscribe({
         next:(response) =>{

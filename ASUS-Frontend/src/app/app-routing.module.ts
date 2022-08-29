@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./auth/auth.guard";
+import { AuthGuard1 } from "./auth/auth.guard1";
 import { HomeComponent } from "./home/home.component";
 import { KupciComponent } from "./kupci/kupci.component";
 import { LoginComponent } from "./login/login.component";
@@ -11,7 +12,8 @@ export const appRoutes: Routes = [
 
     {
     path: 'auth',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [AuthGuard1]    
     },
   {
     path: 'kupci',

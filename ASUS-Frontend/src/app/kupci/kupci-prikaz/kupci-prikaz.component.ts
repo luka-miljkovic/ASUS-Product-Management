@@ -49,11 +49,12 @@ export class KupciPrikazComponent implements OnInit {
     .subscribe({
       next:(response) =>{
         console.log(response.length);
-        if(response.length > 0){
-          this.dataSource = new MatTableDataSource(response);
+        this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-        }
+        /*if(response.length > 0){
+          
+        }*/
         
 
       },
@@ -92,7 +93,7 @@ export class KupciPrikazComponent implements OnInit {
         this.vratiKupce();
       },
       error:()=>{
-        alert("Greska prilikom brosanja kupca");
+        alert("Greska prilikom brisanja kupca");
       }
     })
   }

@@ -30,7 +30,30 @@ export class LoginComponent implements OnInit {
       username: this.username?.value,
       password: this.password?.value
     }
-    this.authService.login(params).subscribe(
+    this.authService.login(params).subscribe({
+      next:(response) => {
+        console.log(response)
+        console.log(response.token);
+        if (response) {
+          alert('Uspesno ste se prijavili!')
+            const url = "/home";            
+            localStorage.setItem('token', response.token);
+            this.router.navigate([url]);
+        }
+      },
+      error:(err)=>{
+        console.log(err.status);
+        console.log(typeof(err.status));
+        if(err.status == 401){
+          alert('Pogresno korisnicko ime i/ili lozinka. Pokusajte ponovo.');
+        }else{
+          alert('Greska prilikom povezivanja na server');
+        }
+        
+    }
+    });
+
+    /*this.authService.login(params).subscribe(
       (response) => {
         console.log(response.token);
         if (response) {
@@ -38,7 +61,7 @@ export class LoginComponent implements OnInit {
          localStorage.setItem('token', response.token);
          this.router.navigate([url]);
         }
-      });
+      });*/
 
     }
 

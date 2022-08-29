@@ -43,13 +43,9 @@ export class ProizvodiComponent implements OnInit {
     this.apiService.vratiProizvode()
     .subscribe({
       next:(response) =>{
-        if(response.length > 0){
-          this.dataSource = new MatTableDataSource(response);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-        
-
+        this.dataSource = new MatTableDataSource(response);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },
       error:(err)=>{
         alert("Greska prilikom ucitavanja!");

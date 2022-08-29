@@ -8,6 +8,8 @@ import { AuthService } from '../_services/auth.service';
 })
 export class NavComponent implements OnInit {
 
+  logedin:boolean = true;
+
   constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
